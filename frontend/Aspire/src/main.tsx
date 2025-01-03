@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+
 import './index.css'
 import App from './App.tsx'
 
@@ -7,7 +8,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import CallToAction from './components/CallToAction.tsx'
 import Hero from './components/Hero.tsx'
 import Features from './components/Features.tsx'
-import Testimonials from './components/Testimonials.tsx'
+import Testimonials from './pages/Testimonials.tsx'
+import Contact from './pages/Contact.tsx'
 
 const router = createBrowserRouter([
     {
@@ -19,15 +21,19 @@ const router = createBrowserRouter([
                 element: <Hero />
             },
             {
-                path: "/",
+                path: "/Features",
                 element: <Features />
             },
             {
-                path: "/",
+                path: "../pages/Contact.tsx",
+                element: <Contact />
+            },
+            {
+                path: "/CallToAction",
                 element: <CallToAction />
             },
             {
-                path: "/",
+                path: "../pages/Testimonials.tsx",
                 element: <Testimonials />
             },
         ]

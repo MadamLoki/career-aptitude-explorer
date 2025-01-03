@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 function Contact() {
     const [formData, setFormData] = useState({
@@ -19,15 +19,15 @@ function Contact() {
 
     const validateForm = () => {
         if (formData.fullName.trim() === "") {
-            document.getElementById("fullName-warning").classList.remove("hidden");
+            document.getElementById("fullName-warning")?.classList.remove("hidden");
             return false;
         }
         if (formData.email.trim() === "") {
-            document.getElementById("email-warning").classList.remove("hidden");
+            document.getElementById("email-warning")?.classList.remove("hidden");
             return false;
         }
         if (formData.message.trim() === "") {
-            document.getElementById("message-warning").classList.remove("hidden");
+            document.getElementById("message-warning")?.classList.remove("hidden");
             return false;
         }
         return true;
@@ -58,9 +58,9 @@ function Contact() {
                             <input type="text" name="fullName" id="name" placeholder="Full Name" value={formData.fullName} onChange={handleInputChange}
                                 onBlur={() => {
                                     if (formData.fullName.trim() === "") {
-                                        document.getElementById("fullName-warning").classList.remove("hidden");
+                                        document.getElementById("fullName-warning")?.classList.remove("hidden");
                                     } else {
-                                        document.getElementById("fullName-warning").classList.add("hidden");
+                                        document.getElementById("fullName-warning")?.classList.add("hidden");
                                     }
                                 }}
                                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
@@ -73,9 +73,9 @@ function Contact() {
                             <input type="email" name="email" id="email" placeholder="example@domain.com" value={formData.email} onChange={handleInputChange} 
                                 onBlur={() => {
                                     if (formData.email.trim() === "") {
-                                        document.getElementById("email-warning").classList.remove("hidden");
+                                        document.getElementById("email-warning")?.classList.remove("hidden");
                                     } else {
-                                        document.getElementById("email-warning").classList.add("hidden");
+                                        document.getElementById("email-warning")?.classList.add("hidden");
                                     }
                                 }}
                                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
@@ -83,12 +83,12 @@ function Contact() {
                         </div> 
                         <div className="mb-5">
                             <label htmlFor="message" className="mb-3 block text-base font-medium text-[#07074D]">Message</label>
-                            <textarea rows="4" name="message" id="message" placeholder="Type your message" value={formData.message} onChange={handleInputChange} 
+                            <textarea name="message" id="message" placeholder="Type your message" value={formData.message} onChange={handleInputChange} 
                                 onBlur={() => {
                                     if (formData.message.trim() === "") {
-                                        document.getElementById("message-warning").classList.remove("hidden");
+                                        document.getElementById("message-warning")?.classList.remove("hidden");
                                     } else {
-                                        document.getElementById("message-warning").classList.add("hidden");
+                                        document.getElementById("message-warning")?.classList.add("hidden");
                                     }
                                 }}
                                 className="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" ></textarea>

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function Header() {
 	return (
 		<header className="bg-white py-4 shadow-sm">
