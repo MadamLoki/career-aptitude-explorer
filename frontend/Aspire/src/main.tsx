@@ -6,8 +6,8 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import CallToAction from './components/CallToAction'
 import Hero from './components/Hero'
-import Features from '../components/Features'
-import Testimonials from '../components/Testimonials'
+import Features from './components/Features'
+import Testimonials from './components/Testimonials'
 
 const router = createBrowserRouter([
     {
@@ -16,11 +16,11 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Features />
+                element: <Hero />
             },
             {
                 path: "/",
-                element: <Hero />
+                element: <Features />
             },
             {
                 path: "/",

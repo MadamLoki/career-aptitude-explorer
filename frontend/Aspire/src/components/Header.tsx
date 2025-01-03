@@ -1,19 +1,14 @@
 function Header () {
 	return (
-		<header className="header">
+		<header>
 			<div className="container">
-				<h1>Career Aptitude Explorer</h1>
+			<h1>Aspire</h1>
 				<nav>
-					<ul className="nav-links">
-						<li>
-							<a href="#features">Features</a>
-						</li>
-						<li>
-							<a href="#testimonials">Testimonials</a>
-						</li>
-						<li>
-							<a href="#cta">Get Started</a>
-						</li>
+					<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="login.html">Login</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact Us</a></li>
 					</ul>
 				</nav>
 			</div>
