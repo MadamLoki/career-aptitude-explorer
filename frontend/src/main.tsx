@@ -2,14 +2,14 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import './index.css'
-import App from './App.tsx'
+import App from './App'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import CallToAction from './components/CallToAction.tsx'
-import Hero from './components/Hero.tsx'
-import Features from './components/Features.tsx'
-import Testimonials from './pages/Testimonials.tsx'
-import Contact from './pages/Contact.tsx'
+import CallToAction from './components/CallToAction'
+import Hero from './components/Hero'
+import Features from './components/Features'
+import Testimonials from './pages/Testimonials'
+import Contact from './pages/Contact'
 
 const router = createBrowserRouter([
     {
@@ -39,9 +39,9 @@ const router = createBrowserRouter([
         ]
     }
 ])
-
-createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <RouterProvider router={router}></RouterProvider>
-    </StrictMode>,
-)
+const rootElement= document.getElementById('root') as HTMLElement
+createRoot(rootElement).render(
+	<StrictMode>
+		<RouterProvider router={router}></RouterProvider>
+	</StrictMode>
+);

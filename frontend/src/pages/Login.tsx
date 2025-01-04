@@ -1,19 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useAuth } from "../contexts/AuthContext";
+
+//import { Link } from "react-router-dom";
+//import { useForm } from "react-hook-form";
+//import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
-    const { login } = useAuth();
-    const { register, handleSubmit } = useForm();
+    //const { login } = useAuth();
+    //const { register, handleSubmit } = useForm();
 
-    const onSubmit = async (data) => {
-        try {
-            await login(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    // const onSubmit = async (data) => {
+    //     try {
+    //         await login(data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">

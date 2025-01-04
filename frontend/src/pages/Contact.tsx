@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function Contact() {
     const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ function Contact() {
 
     const [status, setStatus] = useState("");
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event:any) => {
         const { name, value } = event.target;
         setFormData(prevState => ({
             ...prevState,
@@ -33,7 +33,7 @@ function Contact() {
         return true;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:any) => {
         event.preventDefault();
         if (!validateForm()) return;
 
