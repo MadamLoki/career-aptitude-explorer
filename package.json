@@ -7,7 +7,7 @@
 		"dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
 		"start": "npm run build && npm run serve",
 		"build": "npm run client:build && npm run server:build",
-		"serve": "cd backend && npm run start",
+		"server": "cd backend && npm run start",
 		"server:dev": "cd backend && npm run dev",
 		"server:build": "cd backend && npm run build",
 		"client:dev": "cd frontend && npm run dev",
@@ -17,8 +17,5 @@
 	"devDependencies": {
 		"concurrently": "^8.2.0",
 		"typescript": "^5.3.3"
-	},
-	"engines": {
-		"node": ">=18.0.0"
 	}
 }

@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { sequelize } from './config/database';
-import authRoutes from './routes/auth';
+import authRoutes from './routes/routes';
 import assessmentRoutes from './routes/assessment';
 import careerRoutes from './routes/careers';
 

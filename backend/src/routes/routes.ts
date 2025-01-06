@@ -1,10 +1,31 @@
 import { Router } from 'express';
 
 const router = Router();
-// Define your routes here
-router.get('/', (_, res) => {
-    
-    res.send('Router Test Success');
-});
+
+// Registration route with validation
+router.post(
+    '/register',
+    [
+        body('email').isEmail().normalizeEmail(),
+        body('password').isLength({ min: 6 }),
+        body('username').trim().isLength({ min: 3 })
+    ],
+    validateRequest,
+    register
+);
+
+// Login route with validation
+router.post(
+    '/login',
+    [
+        body('email').isEmail().normalizeEmail(),
+        body('password').exists()
+    ],
+    validateRequest,
+    login
+);
+
+// Logout route
+router.post('/logout', logout);
 
 export default router;
