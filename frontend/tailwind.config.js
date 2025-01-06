@@ -1,19 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./frontend/Aspire/src/**/*.{js,jsx,ts,tsx}",
-    "./frontend/Aspire/index.html",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
-
+      colors: {
+        primary: 'var(--primary)',
+        'primary-dark': 'var(--primary-dark)',
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/container-queries'),
-  ],
+  plugins: [],
 }
-

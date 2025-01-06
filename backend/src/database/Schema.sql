@@ -1,0 +1,40 @@
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(50) NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE AptitudeTests (
+    TestID INT PRIMARY KEY AUTO_INCREMENT,
+    TestName VARCHAR(100) NOT NULL,
+    Description TEXT,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Questions (
+    QuestionID INT PRIMARY KEY AUTO_INCREMENT,
+    TestID INT,
+    QuestionText TEXT NOT NULL,
+    FOREIGN KEY (TestID) REFERENCES AptitudeTests(TestID)
+);
+
+CREATE TABLE Answers (
+    AnswerID INT PRIMARY KEY AUTO_INCREMENT,
+    QuestionID INT,
+    AnswerText TEXT NOT NULL,
+    IsCorrect BOOLEAN NOT NULL,
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
+);
+
+CREATE TABLE UserResponses (
+    ResponseID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
+    QuestionID INT,
+    AnswerID INT,
+    ResponseTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID),
+    FOREIGN KEY (AnswerID) REFERENCES Answers(AnswerID)
+);
