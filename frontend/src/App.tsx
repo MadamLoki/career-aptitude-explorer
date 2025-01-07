@@ -4,7 +4,7 @@ import { Home } from './pages/Home.tsx';
 import Contact from './pages/Contact.tsx';
 import Login from './pages/Login.tsx';
 import Footer from './components/Footer.tsx';
-import Features from './pages/Features.tsx';
+import Features from './components/Features.tsx';
 import Assessment from './pages/Assessment.tsx';
 import Error from './components/Error.tsx';
 
