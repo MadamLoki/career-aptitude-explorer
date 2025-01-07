@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { ChevronRight, ChevronLeft, Check, Brain, Heart, Briefcase } from 'lucide-react';
+import { useState } from 'react';
 
 interface Question {
     id: number;
@@ -160,3 +160,4 @@ function Assessment(): JSX.Element {
 }
 
 export default Assessment;
+
