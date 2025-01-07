@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import HomeDetails from '../components/HomeDetails';
 
 export function Home() {
     return (
@@ -9,6 +10,8 @@ export function Home() {
                     {/* Background grid */}
                     <div className="absolute inset-0 cyber-grid opacity-10" />
                     
+                    <HomeDetails />
+
                     <div className="relative mx-auto max-w-5xl px-6 lg:px-8">
                         <div className="min-h-screen flex items-center justify-center">
                             {/* Decorative corner elements */}
