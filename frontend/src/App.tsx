@@ -5,7 +5,7 @@ import Contact from './pages/Contact.tsx';
 import Login from './pages/Login.tsx';
 import Footer from './components/Footer.tsx';
 import Features from './pages/Features.tsx';
-//import Assessment from './pages/Assessment.tsx';
+import Assessment from './pages/Assessment.tsx';
 import Error from './components/Error.tsx';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
 					<Route path="/Contact" element={<Contact />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/features" element={<Features />} />
-					{/* <Route path="/assessment" element={<Assessment />} /> */}
+					<Route path="/assessment" element={<Assessment />} />
 
 					// Add more routes as needed
 					<Route path="*" element={<Error />} />
