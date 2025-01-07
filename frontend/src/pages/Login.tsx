@@ -1,5 +1,6 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { User, Lock, ArrowRight } from 'lucide-react';
 
 interface LoginFormData {
     email: string;
@@ -28,7 +29,6 @@ const Login: React.FC = () => {
             ...prev,
             [name]: value
         }));
-        // Clear error when typing
         if (showErrors[name as keyof FormErrors]) {
             setShowErrors(prev => ({
                 ...prev,
@@ -39,70 +39,80 @@ const Login: React.FC = () => {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-
-        // Validate form
         const newErrors = {
             email: !formData.email.trim(),
             password: !formData.password.trim()
         };
-
         setShowErrors(newErrors);
-
         if (Object.values(newErrors).some(error => error)) {
             return;
         }
-
-        // Add your login logic here
         console.log('Login attempted with:', formData);
     };
 
     return (
-        <div className="min-h-screen flex flex-col justify-center sm:py-12">
+        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-teal-900 flex flex-col justify-center sm:py-12">
             <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
-                <div className="mb-10">
-                    <h1 className="text-center text-4xl font-bold text-gray-900">Welcome Back</h1>
-                    <p className="text-center mt-2 text-gray-600">Enter your details to continue</p>
+                <div className="mb-10 cyber-text-glow" data-text="Welcome Back">
+                    <h1 className="text-center cyber-title">Welcome Back</h1>
+                    <p className="text-center mt-2 cyber-text">Enter your credentials to continue</p>
                 </div>
 
-                <div className="bg-white shadow-lg rounded-xl p-8">
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Email Address
+                <div className="cyber-card">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label className="block cyber-text mb-2">
+                                <div className="flex items-center gap-2">
+                                    <User className="w-4 h-4 text-teal-400" />
+                                    Email Address
+                                </div>
                             </label>
                             <input
                                 type="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleInputChange}
-                                className="w-full rounded-lg border border-gray-200 p-4 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                className="cyber-input w-full"
                                 placeholder="Enter your email"
                             />
                             {showErrors.email && (
-                                <p className="mt-1 text-sm text-red-500">Please enter your email</p>
+                                <p className="mt-1 text-sm text-red-400">Please enter your email</p>
                             )}
                         </div>
 
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Password
+                        <div>
+                            <label className="block cyber-text mb-2">
+                                <div className="flex items-center gap-2">
+                                    <Lock className="w-4 h-4 text-teal-400" />
+                                    Password
+                                </div>
                             </label>
-                            <input type="password" name="password" value={formData.password} onChange={handleInputChange}
-                                className="w-full rounded-lg border border-gray-200 p-4 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="Enter your password"
+                            <input 
+                                type="password" 
+                                name="password" 
+                                value={formData.password} 
+                                onChange={handleInputChange}
+                                className="cyber-input w-full"
+                                placeholder="Enter your password"
                             />
                             {showErrors.password && (
-                                <p className="mt-1 text-sm text-red-500">Please enter your password</p>
+                                <p className="mt-1 text-sm text-red-400">Please enter your password</p>
                             )}
                         </div>
 
-                        <div className="mb-6">
-                            <button type="submit" className="w-full rounded-lg bg-gray-900 p-4 text-sm font-semibold text-white hover:bg-gray-800 hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" >
-                                Sign In
-                            </button>
-                        </div>
+                        <button 
+                            type="submit" 
+                            className="cyber-button w-full flex items-center justify-center gap-2 animate-cyber-pulse"
+                        >
+                            Sign In
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
 
                         <div className="text-center">
-                            <Link to="/forgot-password" className="text-sm text-gray-600 hover:text-blue-500" >
+                            <Link 
+                                to="/forgot-password" 
+                                className="cyber-text text-sm hover:text-teal-400 transition-colors"
+                            >
                                 Forgot your password?
                             </Link>
                         </div>
@@ -110,9 +120,12 @@ const Login: React.FC = () => {
                 </div>
 
                 <div className="mt-8 text-center">
-                    <p className="text-sm text-gray-600">
+                    <p className="cyber-text text-sm">
                         Don't have an account?{' '}
-                        <Link to="/register" className="font-semibold text-blue-600 hover:text-blue-500" >
+                        <Link 
+                            to="/register" 
+                            className="cyber-text font-semibold text-teal-400 hover:text-teal-300 transition-colors"
+                        >
                             Sign up for free
                         </Link>
                     </p>

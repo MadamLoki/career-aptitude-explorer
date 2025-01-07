@@ -1,30 +1,57 @@
-function Hero() {
-    return (
-        <section className="bg-slate-900">
-            <div className="bg-gradient-to-b from-violet-600/[.15] via-transparent">
-                <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-24">
-                    <div className="max-w-3xl text-center mx-auto space-y-8">
-                        <h2 className="font-medium text-gray-200 text-4xl sm:text-5xl md:text-6xl">
-                            Aspire for the career that is meant for you
-                        </h2>
-                        <p className="text-lg text-gray-400">
-                            Discover your strengths, get personalized career advice, browse a selection of careers and fields suited for
-                            you, and secure job placements with Aspire!
-                        </p>
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-                        <div className="text-center">
-                            <a href="/tests" className="inline-flex justify-center items-center gap-x-3 bg-gradient-to-tl from-blue-600 to-violet-600 hover:shadow-blue-700/50 text-white text-lg font-medium rounded-full py-3 px-8 shadow-lg transition-shadow duration-300">
-                                Take the test
-                                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="m9 18 6-6-6-6" />
-                                </svg>
-                            </a>
-                        </div>
+function AnnouncementBanner() {
+    const [isVisible, setIsVisible] = useState(true);
+
+    // Optional: Persist banner state in localStorage
+    useEffect(() => {
+        const hasSeenBanner = localStorage.getItem('hasSeenBanner');
+        if (hasSeenBanner) {
+            setIsVisible(false);
+        }
+    }, []);
+
+    const handleClose = () => {
+        setIsVisible(false);
+        localStorage.setItem('hasSeenBanner', 'true');
+    };
+
+    if (!isVisible) return null;
+
+    return (
+        <div className="relative bg-gray-900 border-b border-teal-500/30 transition-all">
+            <div className="max-w-6xl mx-auto px-6 py-3">
+                <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 text-sm">
+                        <span className="text-teal-400">New</span>
+                        <span className="text-gray-300">
+                            Take our career assessment and discover your perfect path
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <Link 
+                            to="/tests" 
+                            className="group flex items-center gap-1 text-sm text-teal-400 hover:text-teal-300 transition-colors"
+                        >
+                            Take the test
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+
+                        <button 
+                            onClick={handleClose}
+                            className="text-gray-400 hover:text-gray-300 transition-colors"
+                            aria-label="Close announcement"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
                     </div>
                 </div>
             </div>
-        </section>
-    )
+        </div>
+    );
 }
 
-export default Hero;
+export default AnnouncementBanner;

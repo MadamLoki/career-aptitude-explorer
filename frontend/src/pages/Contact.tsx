@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
+import { User, Mail, MessageSquare, Send } from 'lucide-react';
 
 interface FormData {
     fullName: string;
@@ -62,8 +63,7 @@ const Contact: React.FC = () => {
         event.preventDefault();
         if (!validateForm()) return;
 
-        // Form is valid, you could add form submission logic here
-        setStatus("Message received! Thank you for reaching out.");
+        setStatus("Transmission received. We'll respond shortly.");
         setFormData({
             fullName: "",
             email: "",
@@ -77,69 +77,74 @@ const Contact: React.FC = () => {
     };
 
     return (
-        <div>
-            <div className="flex items-center justify-center p-12">
-                <div className="mx-auto w-full max-w-[550px]">
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-5">
-                            <label htmlFor="fullName" className="mb-3 block text-base font-medium text-[#07074D]" >
+        <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
+            <div className="w-full max-w-xl">
+                {/* Section Title */}
+                <div className="text-center mb-8">
+                    <h2 className="cyber-title text-3xl mb-2">Contact the Team</h2>
+                    <div className="h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent" />
+                </div>
+
+                {/* Contact Form */}
+                <div className="cyber-card p-8">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label className="flex items-center gap-2 cyber-text mb-2">
+                                <User className="w-4 h-4 text-teal-400" />
                                 Full Name
                             </label>
                             <input
                                 type="text"
                                 name="fullName"
-                                id="fullName"
-                                placeholder="Full Name"
                                 value={formData.fullName}
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                className="w-full bg-gray-800/50 border border-teal-500/30 rounded-md px-4 py-3 text-gray-300 focus:border-teal-400 focus:outline-none transition-colors placeholder:text-gray-600"
+                                placeholder="Enter your name"
                             />
-                            <p className={`text-red-500 ${showErrors.fullName ? '' : 'hidden'}`}>
-                                Name is required
-                            </p>
+                            {showErrors.fullName && (
+                                <p className="mt-1 text-red-400">Name required</p>
+                            )}
                         </div>
 
-                        <div className="mb-5">
-                            <label htmlFor="email" className="mb-3 block text-base font-medium text-[#000000]" >
+                        <div>
+                            <label className="flex items-center gap-2 cyber-text mb-2"> <Mail className="w-4 h-4 text-teal-400" />
                                 Email Address
                             </label>
-                            <input type="email" name="email" id="email" placeholder="example@domain.com" value={formData.email}
-                                onChange={handleInputChange} onBlur={handleBlur} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                            <p className={`text-red-500 ${showErrors.email ? '' : 'hidden'}`}>
-                                Email is required
-                            </p>
+                            <input
+                                type="email" name="email" value={formData.email} onChange={handleInputChange} onBlur={handleBlur} className="w-full bg-gray-800/50 border border-teal-500/30 rounded-md px-4 py-3 text-gray-300 focus:border-teal-400 focus:outline-none transition-colors placeholder:text-gray-600" placeholder="Enter your email" />
+                            {showErrors.email && ( <p className="mt-1 text-red-400">Email required</p> )}
                         </div>
 
-                        <div className="mb-5">
-                            <label
-                                htmlFor="message"
-                                className="mb-3 block text-base font-medium text-[#07074D]"
-                            >
+                        <div>
+                            <label className="flex items-center gap-2 cyber-text mb-2">
+                                <MessageSquare className="w-4 h-4 text-teal-400" />
                                 Message
                             </label>
                             <textarea
                                 name="message"
-                                id="message"
-                                placeholder="Type your message"
                                 value={formData.message}
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
-                                className="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                className="cyber-input w-full h-32 resize-none"
+                                placeholder="Type your message"
                             />
-                            <p className={`text-red-500 ${showErrors.message ? '' : 'hidden'}`}>
-                                Message is required
-                            </p>
+                            {showErrors.message && (
+                                <p className="mt-1 text-red-400">Message required</p>
+                            )}
                         </div>
 
-                        <div>
-                            <button type="submit" className="hover:shadow-form rounded-md bg-gray-900 py-3 px-8 text-base font-semibold text-gray-300 hover:text-blue-400 outline-none">Submit</button>
-                        </div>
+                        <button
+                            type="submit"
+                            className="group w-full bg-transparent border border-teal-500/50 hover:border-teal-400 px-6 py-3 text-teal-400 transition-all hover:bg-teal-500/10 animate-cyber-pulse flex items-center justify-center gap-2"
+                        >
+                            <span>Submit</span>
+                            <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </button>
+
                         {status && (
-                            <div className="mt-4 text-center">
-                                <p className={status.includes("Failed") ? "text-red-500" : "text-green-500"}>
-                                    {status}
-                                </p>
+                            <div className="text-center cyber-text">
+                                <p className="text-teal-400">{status}</p>
                             </div>
                         )}
                     </form>
