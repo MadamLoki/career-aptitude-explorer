@@ -1,17 +1,15 @@
 import express, { Express } from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import { sequelize } from './config/database';
 import authRoutes from './routes/routes';
-import assessmentRoutes from './routes/assessment';
-import careerRoutes from './routes/careers';
+import assessmentRoutes from './api/assessment';
+import careerRoutes from './api/careers';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
 app.use(express.json());
 
 // Routes

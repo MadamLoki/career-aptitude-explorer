@@ -1,7 +1,7 @@
 // Assessment routes for creating and retrieving assessments
 import { Router } from 'express';
 import { Assessment } from '../models/Assessment';
-import { verifyToken } from '../middleware/auth';
+import verifyToken from '../middleware/auth';
 
 const router = Router();
 

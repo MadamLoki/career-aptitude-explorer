@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database';
-import { User } from './user';
+import { User } from './User';
 
 export const CareerResults = sequelize.define('CareerResults', {
     id: {
