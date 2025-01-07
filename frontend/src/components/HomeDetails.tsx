@@ -12,8 +12,7 @@ function HomeDetails() {
                         {mainFeatures.map((feature, index) => (
                             <div 
                                 key={index} 
-                                className="border border-teal-500/30 bg-gray-800/50 p-6 hover:bg-gray-800/70 transition-colors"
-                            >
+                                className="border border-teal-500/30 bg-gray-800/50 p-6 hover:bg-gray-800/70 transition-colors" >
                                 <feature.icon className="w-8 h-8 text-teal-400 mb-4" />
                                 <h3 className="cyber-text text-xl mb-3">{feature.title}</h3>
                                 <p className="text-gray-400">{feature.description}</p>

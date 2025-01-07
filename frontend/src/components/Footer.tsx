@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mail, CircuitBoard, ExternalLink } from 'lucide-react';
 
 function Footer() {
