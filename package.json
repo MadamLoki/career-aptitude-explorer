@@ -19,9 +19,15 @@
 		"typescript": "^5.3.3"
 	},
 	"nodemonConfig": {
-		"watch": ["src"],
+		"watch": [
+			"src"
+		],
 		"ext": ".ts,.js",
 		"ignore": [],
 		"exec": "ts-node --esm ./src/app.ts"
+	},
+	"dependencies": {
+		"@heroicons/react": "^2.2.0",
+		"@material-tailwind/react": "^2.1.10"
 	}
 }

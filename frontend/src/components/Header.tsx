@@ -1,13 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Compass } from 'lucide-react';
-
 function Header() {
 	return (
 		<header className="bg-white py-4 shadow-sm">
 			<div className="container mx-auto px-4">
 				<div className="flex items-center justify-between">
-					<h1 className="text-2xl font-bold">Aspire</h1>
+					<h1 className="text-2xl font-bold *:text-blue-600">Aspire</h1>
 
 					<nav>
 						<ul className="flex space-x-6">

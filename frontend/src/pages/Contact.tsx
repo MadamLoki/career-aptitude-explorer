@@ -1,15 +1,35 @@
-import { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
 
-function Contact() {
-    const [formData, setFormData] = useState({
+interface FormData {
+    fullName: string;
+    email: string;
+    message: string;
+}
+
+interface FormErrors {
+    fullName: boolean;
+    email: boolean;
+    message: boolean;
+}
+
+const Contact: React.FC = () => {
+    const [formData, setFormData] = useState<FormData>({
         fullName: "",
         email: "",
         message: "",
     });
 
-    const [status, setStatus] = useState("");
+    const [showErrors, setShowErrors] = useState<FormErrors>({
+        fullName: false,
+        email: false,
+        message: false,
+    });
 
-    const handleInputChange = (event:any) => {
+    const [status, setStatus] = useState<string>("");
+
+    const handleInputChange = (
+        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ): void => {
         const { name, value } = event.target;
         setFormData(prevState => ({
             ...prevState,
@@ -17,23 +37,28 @@ function Contact() {
         }));
     };
 
-    const validateForm = () => {
-        if (formData.fullName.trim() === "") {
-            document.getElementById("fullName-warning")?.classList.remove("hidden");
-            return false;
-        }
-        if (formData.email.trim() === "") {
-            document.getElementById("email-warning")?.classList.remove("hidden");
-            return false;
-        }
-        if (formData.message.trim() === "") {
-            document.getElementById("message-warning")?.classList.remove("hidden");
-            return false;
-        }
-        return true;
+    const validateForm = (): boolean => {
+        const newErrors = {
+            fullName: formData.fullName.trim() === "",
+            email: formData.email.trim() === "",
+            message: formData.message.trim() === "",
+        };
+
+        setShowErrors(newErrors);
+        return !Object.values(newErrors).some(error => error);
     };
 
-    const handleSubmit = (event:any) => {
+    const handleBlur = (
+        event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    ): void => {
+        const { name, value } = event.target;
+        setShowErrors(prev => ({
+            ...prev,
+            [name]: value.trim() === ""
+        }));
+    };
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         if (!validateForm()) return;
 
@@ -44,6 +69,11 @@ function Contact() {
             email: "",
             message: "",
         });
+        setShowErrors({
+            fullName: false,
+            email: false,
+            message: false,
+        });
     };
 
     return (
@@ -52,53 +82,58 @@ function Contact() {
                 <div className="mx-auto w-full max-w-[550px]">
                     <form onSubmit={handleSubmit}>
                         <div className="mb-5">
-                            <label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
+                            <label htmlFor="fullName" className="mb-3 block text-base font-medium text-[#07074D]" >
                                 Full Name
                             </label>
-                            <input type="text" name="fullName" id="name" placeholder="Full Name" value={formData.fullName} onChange={handleInputChange}
-                                onBlur={() => {
-                                    if (formData.fullName.trim() === "") {
-                                        document.getElementById("fullName-warning")?.classList.remove("hidden");
-                                    } else {
-                                        document.getElementById("fullName-warning")?.classList.add("hidden");
-                                    }
-                                }}
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                            <p id="fullName-warning" className="text-red-500 hidden">Name is required</p>
+                            <input
+                                type="text"
+                                name="fullName"
+                                id="fullName"
+                                placeholder="Full Name"
+                                value={formData.fullName}
+                                onChange={handleInputChange}
+                                onBlur={handleBlur}
+                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            />
+                            <p className={`text-red-500 ${showErrors.fullName ? '' : 'hidden'}`}>
+                                Name is required
+                            </p>
                         </div>
+
                         <div className="mb-5">
-                            <label htmlFor="email" className="mb-3 block text-base font-medium text-[#07074D]">
+                            <label htmlFor="email" className="mb-3 block text-base font-medium text-[#000000]" >
                                 Email Address
                             </label>
-                            <input type="email" name="email" id="email" placeholder="example@domain.com" value={formData.email} onChange={handleInputChange} 
-                                onBlur={() => {
-                                    if (formData.email.trim() === "") {
-                                        document.getElementById("email-warning")?.classList.remove("hidden");
-                                    } else {
-                                        document.getElementById("email-warning")?.classList.add("hidden");
-                                    }
-                                }}
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                            <p id="email-warning" className="text-red-500 hidden">Email is required</p>
-                        </div> 
-                        <div className="mb-5">
-                            <label htmlFor="message" className="mb-3 block text-base font-medium text-[#07074D]">Message</label>
-                            <textarea name="message" id="message" placeholder="Type your message" value={formData.message} onChange={handleInputChange} 
-                                onBlur={() => {
-                                    if (formData.message.trim() === "") {
-                                        document.getElementById("message-warning")?.classList.remove("hidden");
-                                    } else {
-                                        document.getElementById("message-warning")?.classList.add("hidden");
-                                    }
-                                }}
-                                className="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" ></textarea>
-                            <p id="message-warning" className="text-red-500 hidden">Message is required</p>
+                            <input type="email" name="email" id="email" placeholder="example@domain.com" value={formData.email}
+                                onChange={handleInputChange} onBlur={handleBlur} className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                            <p className={`text-red-500 ${showErrors.email ? '' : 'hidden'}`}>
+                                Email is required
+                            </p>
                         </div>
+
+                        <div className="mb-5">
+                            <label
+                                htmlFor="message"
+                                className="mb-3 block text-base font-medium text-[#07074D]"
+                            >
+                                Message
+                            </label>
+                            <textarea
+                                name="message"
+                                id="message"
+                                placeholder="Type your message"
+                                value={formData.message}
+                                onChange={handleInputChange}
+                                onBlur={handleBlur}
+                                className="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            />
+                            <p className={`text-red-500 ${showErrors.message ? '' : 'hidden'}`}>
+                                Message is required
+                            </p>
+                        </div>
+
                         <div>
-                            <button type="submit" 
-                                className="hover:shadow-form rounded-md bg-gray-900 py-3 px-8 text-base font-semibold text-gray-300 hover:text-blue-400 outline-none" >
-                                Submit
-                            </button>
+                            <button type="submit" className="hover:shadow-form rounded-md bg-gray-900 py-3 px-8 text-base font-semibold text-gray-300 hover:text-blue-400 outline-none">Submit</button>
                         </div>
                         {status && (
                             <div className="mt-4 text-center">

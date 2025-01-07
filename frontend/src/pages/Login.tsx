@@ -1,73 +1,125 @@
+import React, { useState, FormEvent, ChangeEvent } from 'react';
+import { Link } from 'react-router-dom';
 
-//import { Link } from "react-router-dom";
-//import { useForm } from "react-hook-form";
-//import { useAuth } from "../contexts/AuthContext";
+interface LoginFormData {
+    email: string;
+    password: string;
+}
 
-function Login() {
-    //const { login } = useAuth();
-    //const { register, handleSubmit } = useForm();
+interface FormErrors {
+    email: boolean;
+    password: boolean;
+}
 
-    // const onSubmit = async (data) => {
-    //     try {
-    //         await login(data);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
+const Login: React.FC = () => {
+    const [formData, setFormData] = useState<LoginFormData>({
+        email: '',
+        password: '',
+    });
+
+    const [showErrors, setShowErrors] = useState<FormErrors>({
+        email: false,
+        password: false,
+    });
+
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        const { name, value } = event.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        // Clear error when typing
+        if (showErrors[name as keyof FormErrors]) {
+            setShowErrors(prev => ({
+                ...prev,
+                [name]: false
+            }));
+        }
+    };
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+        event.preventDefault();
+
+        // Validate form
+        const newErrors = {
+            email: !formData.email.trim(),
+            password: !formData.password.trim()
+        };
+
+        setShowErrors(newErrors);
+
+        if (Object.values(newErrors).some(error => error)) {
+            return;
+        }
+
+        // Add your login logic here
+        console.log('Login attempted with:', formData);
+    };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
+        <div className="min-h-screen flex flex-col justify-center sm:py-12">
             <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
-                <h1 className="font-bold text-center text-2xl mb-5">Your Logo</h1>
-                <div className="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
-                    <div className="px-5 py-7">
-                        <label className="font-semibold text-sm text-gray-600 pb-1 block">E-mail</label>
-                        <input type="text" className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-                        <label className="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
-                        <input type="text" className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-                        <button type="button" className="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                            <span className="inline-block mr-2">Login</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="py-5">
-                        <div className="grid grid-cols-2 gap-1">
-                            <div className="text-center sm:text-left whitespace-nowrap">
-                                <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block align-text-top">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                                    </svg>
-                                    <span className="inline-block ml-1">Forgot Password</span>
-                                </button>
-                            </div>
-                            <div className="text-center sm:text-right  whitespace-nowrap">
-                                <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block align-text-bottom	">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                    <span className="inline-block ml-1">Help</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div className="mb-10">
+                    <h1 className="text-center text-4xl font-bold text-gray-900">Welcome Back</h1>
+                    <p className="text-center mt-2 text-gray-600">Enter your details to continue</p>
                 </div>
-                <div className="py-5">
-                    <div className="grid grid-cols-2 gap-1">
-                        <div className="text-center sm:text-left whitespace-nowrap">
-                            <button className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 inline-block align-text-top">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                                </svg>
-                                <span className="inline-block ml-1">Back to your-app.com</span>
+
+                <div className="bg-white shadow-lg rounded-xl p-8">
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                className="w-full rounded-lg border border-gray-200 p-4 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                placeholder="Enter your email"
+                            />
+                            {showErrors.email && (
+                                <p className="mt-1 text-sm text-red-500">Please enter your email</p>
+                            )}
+                        </div>
+
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Password
+                            </label>
+                            <input type="password" name="password" value={formData.password} onChange={handleInputChange}
+                                className="w-full rounded-lg border border-gray-200 p-4 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" placeholder="Enter your password"
+                            />
+                            {showErrors.password && (
+                                <p className="mt-1 text-sm text-red-500">Please enter your password</p>
+                            )}
+                        </div>
+
+                        <div className="mb-6">
+                            <button type="submit" className="w-full rounded-lg bg-gray-900 p-4 text-sm font-semibold text-white hover:bg-gray-800 hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" >
+                                Sign In
                             </button>
                         </div>
-                    </div>
+
+                        <div className="text-center">
+                            <Link to="/forgot-password" className="text-sm text-gray-600 hover:text-blue-500" >
+                                Forgot your password?
+                            </Link>
+                        </div>
+                    </form>
+                </div>
+
+                <div className="mt-8 text-center">
+                    <p className="text-sm text-gray-600">
+                        Don't have an account?{' '}
+                        <Link to="/register" className="font-semibold text-blue-600 hover:text-blue-500" >
+                            Sign up for free
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Login;
