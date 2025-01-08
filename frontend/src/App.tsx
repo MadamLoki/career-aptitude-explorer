@@ -7,6 +7,7 @@ import Footer from './components/Footer.tsx';
 import Features from './components/Features.tsx';
 import Assessment from './pages/Assessment.tsx';
 import Error from './components/Error.tsx';
+import Register from './components/Register.tsx';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/features" element={<Features />} />
 					<Route path="/assessment" element={<Assessment />} />
+					<Route path="/register" element={<Register />} />
 
 					// Add more routes as needed
 					<Route path="*" element={<Error />} />
