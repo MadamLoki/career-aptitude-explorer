@@ -23,16 +23,12 @@ const JobSearch: React.FC = () => {
         setLoading(true);
         setError(null);
         try {
-            // Call your backend API instead of Adzuna directly
             const response = await fetch(
                 `/api/jobs/search?` +
-                `app_id=${import.meta.env.ADZUNA_APP_ID}&` +
-                `app_key=${import.meta.env.ADZUNA_API_KEY}&` +
-                `results_per_page=10&` +
                 `what=${encodeURIComponent(searchTerm)}&` +
                 `where=${encodeURIComponent(location)}`
             );
-
+    
             if (!response.ok) throw new Error('Failed to fetch job listings');
             const data = await response.json();
             setResults(data.results);
