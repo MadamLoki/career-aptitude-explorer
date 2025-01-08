@@ -12,8 +12,8 @@ import JobSearch from './components/JobSearch.tsx';
 
 declare global {
 	interface Window {
-		ADZUNA_API_KEY?: string;
-		ADZUNA_APP_ID?: string;
+		readonly ADZUNA_API_KEY?: string;
+		readonly ADZUNA_APP_ID?: string;
 	}
 }
 

@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Building2, Calendar, DollarSign } from 'lucide-react';
 
-interface JobSearchProps {
-    appId: string;
-    appKey: string;
-}
-
 interface JobListing {
     id: string;
     title: string;
@@ -17,7 +12,7 @@ interface JobListing {
     created: string;
 }
 
-const JobSearch: React.FC<JobSearchProps> = ({ appId, appKey }) => {
+const JobSearch: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [location, setLocation] = useState('');
     const [results, setResults] = useState<JobListing[]>([]);
@@ -28,9 +23,15 @@ const JobSearch: React.FC<JobSearchProps> = ({ appId, appKey }) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(
-                `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${appId}&app_key=${appKey}&results_per_page=10&what=${encodeURIComponent(searchTerm)}&where=${encodeURIComponent(location)}&content-type=application/json`
-            );
+            const url = new URL('https://api.adzuna.com/v1/api/jobs/us/search/1');
+            url.searchParams.append('app_id', process.env.ADZUNA_APP_ID || '');
+            url.searchParams.append('app_key', process.env.ADZUNA_API_KEY || '');
+            url.searchParams.append('results_per_page', '10');
+            url.searchParams.append('what', searchTerm);
+            url.searchParams.append('where', location);
+            url.searchParams.append('content-type', 'application/json');
+
+            const response = await fetch(url.toString());
             if (!response.ok) throw new Error('Failed to fetch job listings');
             const data = await response.json();
             setResults(data.results);
@@ -68,9 +69,20 @@ const JobSearch: React.FC<JobSearchProps> = ({ appId, appKey }) => {
                         <div className="flex-1 relative">
                             <div className="absolute inset-y-0 left-3 flex items-center">
                                 <MapPin className="w-5 h-5 text-teal-400" />
-                            </div><input type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location" className="cyber-input pl-12 w-full" />
+                            </div>
+                            <input 
+                                type="text" 
+                                value={location} 
+                                onChange={(e) => setLocation(e.target.value)} 
+                                placeholder="Location" 
+                                className="cyber-input pl-12 w-full" 
+                            />
                         </div>
-                        <button type="submit" disabled={loading} className="bg-transparent border border-teal-500/50 hover:border-teal-400 px-6 py-3 text-teal-400 transition-all hover:bg-teal-500/10 animate-cyber-pulse disabled:opacity-50 disabled:cursor-not-allowed" >
+                        <button 
+                            type="submit" 
+                            disabled={loading} 
+                            className="bg-transparent border border-teal-500/50 hover:border-teal-400 px-6 py-3 text-teal-400 transition-all hover:bg-teal-500/10 animate-cyber-pulse disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
                             {loading ? 'Searching...' : 'Search Jobs'}
                         </button>
                     </div>
