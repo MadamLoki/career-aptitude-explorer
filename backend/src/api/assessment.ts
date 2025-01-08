@@ -1,6 +1,6 @@
 // Assessment routes for creating and retrieving assessments
 import { Router } from 'express';
-import { Assessment } from '../models/assessment';
+import { Assessment } from '../models/Assessment';
 import authenticateToken, { AuthenticatedRequest } from '../middleware/auth';
 
 const router = Router();
