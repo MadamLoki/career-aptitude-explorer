@@ -29,7 +29,7 @@ const JobSearch: React.FC<JobSearchProps> = ({ appId, appKey }) => {
         setError(null);
         try {
             const response = await fetch(
-                `https://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=${appId}&app_key=${appKey}&results_per_page=10&what=${encodeURIComponent(searchTerm)}&where=${encodeURIComponent(location)}&content-type=application/json`
+                `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${appId}&app_key=${appKey}&results_per_page=10&what=${encodeURIComponent(searchTerm)}&where=${encodeURIComponent(location)}&content-type=application/json`
             );
             if (!response.ok) throw new Error('Failed to fetch job listings');
             const data = await response.json();
@@ -43,8 +43,8 @@ const JobSearch: React.FC<JobSearchProps> = ({ appId, appKey }) => {
 
     const formatSalary = (min: number, max: number) => {
         if (!min && !max) return 'Salary not specified';
-        if (min === max) return `£${min.toLocaleString()}`;
-        return `£${min.toLocaleString()} - £${max.toLocaleString()}`;
+        if (min === max) return `$${min.toLocaleString()}`;
+        return `$${min.toLocaleString()} - $${max.toLocaleString()}`;
     };
 
     return (
@@ -68,20 +68,9 @@ const JobSearch: React.FC<JobSearchProps> = ({ appId, appKey }) => {
                         <div className="flex-1 relative">
                             <div className="absolute inset-y-0 left-3 flex items-center">
                                 <MapPin className="w-5 h-5 text-teal-400" />
-                            </div>
-                            <input
-                                type="text"
-                                value={location}
-                                onChange={(e) => setLocation(e.target.value)}
-                                placeholder="Location"
-                                className="cyber-input pl-12 w-full"
-                            />
+                            </div><input type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location" className="cyber-input pl-12 w-full" />
                         </div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="bg-transparent border border-teal-500/50 hover:border-teal-400 px-6 py-3 text-teal-400 transition-all hover:bg-teal-500/10 animate-cyber-pulse disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
+                        <button type="submit" disabled={loading} className="bg-transparent border border-teal-500/50 hover:border-teal-400 px-6 py-3 text-teal-400 transition-all hover:bg-teal-500/10 animate-cyber-pulse disabled:opacity-50 disabled:cursor-not-allowed" >
                             {loading ? 'Searching...' : 'Search Jobs'}
                         </button>
                     </div>

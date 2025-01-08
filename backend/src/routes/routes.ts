@@ -2,8 +2,11 @@ import { Router } from 'express';
 const { body } = require('express-validator');
 const { validateRequest } = require('../middleware/validate');
 const { register, login, logout } = require('../controllers/auth');
+import jobRoutes from '../api/jobs';
 
 const router = Router();
+
+router.use('/api/jobs', jobRoutes);
 
 // Registration route with validation
 router.post(
