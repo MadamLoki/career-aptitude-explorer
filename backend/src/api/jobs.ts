@@ -16,7 +16,7 @@ router.get('/search', async (req, res) => {
         });
 
         const response = await fetch(
-            `https://api.adzuna.com/v1/api/jobs/gb/search/1?${params.toString()}`
+            `https://api.adzuna.com/v1/api/jobs/us/search/1?${params.toString()}`
         );
 
         if (!response.ok) {

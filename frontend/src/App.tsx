@@ -1,12 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header.tsx';
-
-declare global {
-	interface Window {
-		ENV_ADZUNA_API_KEY?: string;
-		ENV_ADZUNA_APP_ID?: string;
-	}
-}
 import { Home } from './pages/Home.tsx';
 import Contact from './pages/Contact.tsx';
 import Login from './pages/Login.tsx';
@@ -16,6 +9,13 @@ import Assessment from './pages/Assessment.tsx';
 import Error from './components/Error.tsx';
 import Register from './components/Register.tsx';
 import JobSearch from './components/JobSearch.tsx';
+
+declare global {
+	interface Window {
+		ADZUNA_API_KEY?: string;
+		ADZUNA_APP_ID?: string;
+	}
+}
 
 function App() {
 	return (
@@ -31,8 +31,8 @@ function App() {
 					<Route path="/assessment" element={<Assessment />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/jobsearch" element={<JobSearch
-						appId={window.ENV_ADZUNA_APP_ID || ''}
-						appKey={window.ENV_ADZUNA_API_KEY || ''}
+						appId={window.ADZUNA_APP_ID || ''}
+						appKey={window.ADZUNA_API_KEY || ''}
 					/>} />
 					// Add more routes as needed
 					<Route path="*" element={<Error />} />
