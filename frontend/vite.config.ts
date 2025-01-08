@@ -6,10 +6,7 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': {  // This should match the path you use in your fetch requests
-        target: 'http://localhost:3001',
-        changeOrigin: true
-      }
+      '/api': `http://localhost:${process.env.PORT || 3000}`  // Match your backend port
     }
   }
 });

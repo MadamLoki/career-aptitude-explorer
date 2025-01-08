@@ -24,9 +24,7 @@ const JobSearch: React.FC = () => {
         setError(null);
         try {
             const response = await fetch(
-                `/api/jobs/search?` +
-                `what=${encodeURIComponent(searchTerm)}&` +
-                `where=${encodeURIComponent(location)}`
+                `https://api.adzuna.com/v1/api/jobs/search/1?app_id=${import.meta.env.ADZUNA_APP_ID}&app_key=${import.meta.env.ADZUNA_API_KEY}&what=${encodeURIComponent(searchTerm)}&where=${encodeURIComponent(location)}`
             );
     
             if (!response.ok) throw new Error('Failed to fetch job listings');
