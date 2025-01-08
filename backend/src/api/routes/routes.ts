@@ -2,8 +2,13 @@ import { Router } from 'express';
 const { body } = require('express-validator');
 const { validateRequest } = require('../middleware/validate');
 const { register, login, logout } = require('../controllers/auth');
+import jobRoutes from '../jobs';
+import { Request, Response, NextFunction } from 'express';
 
 const router = Router();
+
+// Job routes
+router.use('/api/jobs', jobRoutes);
 
 // Registration route with validation
 router.post(
@@ -30,5 +35,15 @@ router.post(
 
 // Logout route
 router.post('/logout', logout);
+
+// Error handling middleware
+router.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    console.error('Router Error:', err);
+    res.status(500).json({
+        error: process.env.NODE_ENV === 'production' 
+            ? 'Internal server error' 
+            : err.message
+    });
+});
 
 export default router;

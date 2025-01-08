@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import { sequelize } from './config/database';
-import authRoutes from './routes/routes';
+import authRoutes from './api/routes/routes';
 import assessmentRoutes from './api/assessment';
 import careerRoutes from './api/careers';
 
