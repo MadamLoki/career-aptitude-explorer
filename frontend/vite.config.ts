@@ -3,8 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  envPrefix: '', // Remove the VITE_ prefix from environment variables
+  envPrefix: '', // This removes the VITE_ prefix requirement
+  build: {
+    sourcemap: true,
+  },
   server: {
     port: 3000,
-  },
+  }
 });
