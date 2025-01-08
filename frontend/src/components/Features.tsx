@@ -1,4 +1,3 @@
-import React from 'react';
 import { BookUser, Brain, Route, ArrowRight } from 'lucide-react';
 
 function Features() {

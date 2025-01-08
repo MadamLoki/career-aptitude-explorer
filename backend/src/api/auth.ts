@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { User } from '../models/User';
+import { User } from '../middleware/user';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils/jwt';
 
@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
         const user = await User.create({
             email,
             password: hashedPassword,
-            name
+            username: name || email.split('@')[0],
         });
 
         const token = generateToken({ id: user.id });
@@ -33,9 +33,9 @@ router.post('/login', async (req, res) => {
         }
 
         const token = generateToken({ id: user.id });
-        res.json({ token });
+        return res.json({ token });
     } catch (error) {
-        res.status(400).json({ error: 'Login failed' });
+        return res.status(400).json({ error: 'Login failed' });
     }
 });
 
