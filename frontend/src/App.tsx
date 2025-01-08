@@ -10,13 +10,6 @@ import Error from './components/Error.tsx';
 import Register from './components/Register.tsx';
 import JobSearch from './components/JobSearch.tsx';
 
-declare global {
-	interface Window {
-		readonly ADZUNA_API_KEY?: string;
-		readonly ADZUNA_APP_ID?: string;
-	}
-}
-
 function App() {
 	return (
 		<Router>
@@ -30,10 +23,7 @@ function App() {
 					<Route path="/features" element={<Features />} />
 					<Route path="/assessment" element={<Assessment />} />
 					<Route path="/register" element={<Register />} />
-					<Route path="/jobsearch" element={<JobSearch
-						appId={window.ADZUNA_APP_ID || ''}
-						appKey={window.ADZUNA_API_KEY || ''}
-					/>} />
+					<Route path="/jobsearch" element={<JobSearch />} />
 					// Add more routes as needed
 					<Route path="*" element={<Error />} />
 				</Routes>

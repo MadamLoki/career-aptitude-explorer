@@ -24,13 +24,13 @@ const JobSearch: React.FC = () => {
         setError(null);
         try {
             const url = new URL('https://api.adzuna.com/v1/api/jobs/us/search/1');
-            url.searchParams.append('app_id', process.env.ADZUNA_APP_ID || '');
-            url.searchParams.append('app_key', process.env.ADZUNA_API_KEY || '');
+            url.searchParams.append('app_id', import.meta.env.ADZUNA_APP_ID || '');
+            url.searchParams.append('app_key', import.meta.env.ADZUNA_API_KEY || '');
             url.searchParams.append('results_per_page', '10');
             url.searchParams.append('what', searchTerm);
             url.searchParams.append('where', location);
             url.searchParams.append('content-type', 'application/json');
-
+    
             const response = await fetch(url.toString());
             if (!response.ok) throw new Error('Failed to fetch job listings');
             const data = await response.json();
