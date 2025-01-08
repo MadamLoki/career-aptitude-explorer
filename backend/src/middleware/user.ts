@@ -51,3 +51,5 @@ export function UserFactory(sequelize: Sequelize): typeof User {
 
     return User;
 }
+
+export default User;

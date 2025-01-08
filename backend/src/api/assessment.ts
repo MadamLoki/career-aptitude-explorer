@@ -1,16 +1,15 @@
 // Assessment routes for creating and retrieving assessments
 import { Router } from 'express';
 import { Assessment } from '../models/assessment';
-import verifyToken from '../middleware/auth';
+import authenticateToken, { AuthenticatedRequest } from '../middleware/auth';
 
 const router = Router();
 
 // Create a new assessment for an authenticated user
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
-        // Create assessment with user ID from token and request body data
         const assessment = await Assessment.create({
-            userId: req.user.id,
+            userId: req.user?.id,
             ...req.body
         });
         res.status(201).json(assessment);
@@ -20,11 +19,10 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 // Get all assessment results for an authenticated user
-router.get('/results', verifyToken, async (req, res) => {
+router.get('/results', authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
-        // Find all assessments for the user, sorted by creation date
         const assessments = await Assessment.findAll({
-            where: { userId: req.user.id },
+            where: { userId: req.user?.id },
             order: [['createdAt', 'DESC']]
         });
         res.json(assessments);

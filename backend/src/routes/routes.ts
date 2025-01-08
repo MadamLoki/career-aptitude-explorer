@@ -1,4 +1,7 @@
 import { Router } from 'express';
+const { body } = require('express-validator');
+const { validateRequest } = require('../middleware/validate');
+const { register, login, logout } = require('../controllers/auth');
 
 const router = Router();
 

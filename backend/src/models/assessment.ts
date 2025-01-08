@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/database';
-import { User } from './User';
+import { User } from '../middleware/user';
 
 interface AssessmentAttributes {
     id: string;
