@@ -12,13 +12,12 @@ if (!databaseUrl) {
 const sequelize = new Sequelize(databaseUrl, {
     dialect: 'postgres',
     logging: false,
-    ssl: process.env.NODE_ENV === 'production',
-    dialectOptions: process.env.NODE_ENV === 'production' ? {
+    dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorized: false
+            rejectUnauthorized: false // Use this only for development/testing, not in production
         }
-    } : {}
+    }
 });
 
 const connectToDatabase = async () => {
