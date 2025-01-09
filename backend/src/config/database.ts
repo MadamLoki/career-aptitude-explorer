@@ -8,6 +8,7 @@ const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
     throw new Error('DATABASE_URL is not set in the environment variables');
 }
+
 const sequelize = new Sequelize(databaseUrl, {
     dialect: 'postgres',
     logging: false,
@@ -20,15 +21,15 @@ const sequelize = new Sequelize(databaseUrl, {
     } : {}
 });
 
-export const connectToDatabase = async () => {
+const connectToDatabase = async () => {
     try {
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-        return sequelize;
+        console.log('Connection to the database has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
         throw error;
     }
 };
 
+export { connectToDatabase };
 export default sequelize;

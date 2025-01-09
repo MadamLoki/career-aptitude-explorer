@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/connection';
-import User from './authController';
+import User from '../models/User';
 
 export const Assessment = sequelize.define('Assessment', {
     id: {

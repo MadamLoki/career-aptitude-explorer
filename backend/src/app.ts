@@ -1,7 +1,8 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { connectToDatabase } from './config/database.js';
+import sequelize, { connectToDatabase } from './config/database.js';
+import { setupAssociations } from './models/associations.js';
 import authRoutes from './api/routes/routes.js';
 import assessmentRoutes from './api/assessment.js';
 import careerRoutes from './api/careers.js';
@@ -28,13 +29,18 @@ app.get('/test', (_req, res) => {
     res.json({ message: 'Server is working!' });
 });
 
-// Database connection and server start
-connectToDatabase().then((sequelize) => {
-    sequelize.sync().then(() => {
+// Database connection, association setup, sync, and server start
+connectToDatabase()
+    .then(() => {
+        setupAssociations();
+        return sequelize.sync({ force: false });
+    })
+    .then(() => {
+        console.log('Database synced');
         app.listen(port, () => {
             console.log(`Server running on port ${port}`);
         });
+    })
+    .catch((error: unknown) => {
+        console.error('Unable to connect to the database or sync:', error);
     });
-}).catch((error) => {
-    console.error('Unable to connect to the database:', error);
-});

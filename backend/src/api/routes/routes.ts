@@ -1,7 +1,7 @@
 import { Router } from 'express';
-const { body } = require('express-validator');
-const { validateRequest } = require('../middleware/validate');
-const { register, login, logout } = require('../controllers/auth');
+import { body } from 'express-validator';
+import { validateRequest } from '../../middleware/validate.js';
+import { register, login, logout } from '../../controllers/authController.js';
 import jobRoutes from '../jobs.js';
 import { Request, Response, NextFunction } from 'express';
 

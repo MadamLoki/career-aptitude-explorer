@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../config/connection.js';
-import { User } from '../middleware/user.js';
+import sequelize from '../config/database.js';
 
 interface AssessmentAttributes {
     id: string;
@@ -28,10 +27,7 @@ Assessment.init({
     },
     userId: {
         type: DataTypes.UUID,
-        references: {
-            model: User,
-            key: 'id'
-        }
+        allowNull: false
     },
     personalityResults: {
         type: DataTypes.JSONB,
@@ -57,5 +53,4 @@ Assessment.init({
     modelName: 'Assessment'
 });
 
-Assessment.belongsTo(User);
-User.hasMany(Assessment);
+export default Assessment;
