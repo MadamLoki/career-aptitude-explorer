@@ -1,7 +1,9 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import sequelize, { connectToDatabase } from './config/database.js';
+import { connectToDatabase } from './config/database.js';
+import User from './models/User.js';
+import Assessment from './models/Assessment.js';
 import { setupAssociations } from './models/associations.js';
 import authRoutes from './api/routes/routes.js';
 import assessmentRoutes from './api/assessment.js';
@@ -33,7 +35,10 @@ app.get('/test', (_req, res) => {
 connectToDatabase()
     .then(() => {
         setupAssociations();
-        return sequelize.sync({ force: false });
+        return User.sync({ force: false, alter: true });
+    })
+    .then(() => {
+        return Assessment.sync({ force: false, alter: true });
     })
     .then(() => {
         console.log('Database synced');

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { User } from '../middleware/user';
+import User, { UserAttributes } from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils/jwt';
 
@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
             email,
             password: hashedPassword,
             username: name || email.split('@')[0],
-        });
+        } as UserAttributes);
 
         const token = generateToken({ id: user.id });
         res.status(201).json({ token });

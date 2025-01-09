@@ -3,19 +3,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-interface UserAttributes {
-    id: string;
-    email: string;
-    password: string;
-    name: string;
-}
-
-import { Model } from 'sequelize';
-interface UserInstance extends Model<UserAttributes>, UserAttributes { }
-
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { email, password, name } = req.body;
+        const { email, password, username } = req.body;
 
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
@@ -27,8 +17,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         const user = await User.create({
             email,
             password: hashedPassword,
-            name
-        }) as UserInstance;
+            username
+        });
 
         return res.status(201).json({ message: 'User registered successfully', userId: user.id });
     } catch (error) {
@@ -41,7 +31,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const { email, password } = req.body;
 
-        const user = await User.findOne({ where: { email } }) as UserInstance | null;
+        const user = await User.findOne({ where: { email } });
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
