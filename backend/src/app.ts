@@ -3,10 +3,10 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { connectToDatabase } from './config/database.js';
 import User from './models/User.js';
-import Assessment from './models/Assessment.js';
+import Assessment from './models/assessment.js';
 import { setupAssociations } from './models/associations.js';
 import authRoutes from './api/routes/routes.js';
-import assessmentRoutes from './api/assessment.js';
+import assessmentRoutes from './api/assessmentApi.js';
 import careerRoutes from './api/careers.js';
 import jobRoutes from './api/jobs.js';
 
@@ -22,7 +22,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/assessment', assessmentRoutes);
+app.use('/api/assessmentApi', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', jobRoutes);  // Add job routes
 

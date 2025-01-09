@@ -1,6 +1,6 @@
 // Assessment routes for creating and retrieving assessments
 import { Router } from 'express';
-import { Assessment } from '../models/Assessment.js';
+import { Assessment } from '../models/assessment.js';
 import authenticateToken, { AuthenticatedRequest } from '../middleware/auth.js';
 
 const router = Router();
@@ -8,11 +8,11 @@ const router = Router();
 // Create a new assessment for an authenticated user
 router.post('/', authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
-        const assessment = await Assessment.create({
+        const newAssessment = await Assessment.create({
             userId: req.user?.id,
             ...req.body
         });
-        res.status(201).json(assessment);
+        res.status(201).json(newAssessment);
     } catch (error) {
         res.status(400).json({ error: 'Failed to create assessment' });
     }

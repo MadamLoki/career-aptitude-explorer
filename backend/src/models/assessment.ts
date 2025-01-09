@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database.js';
 import User from './User.js';
 
-interface AssessmentAttributes {
+interface assessmentAttributes {
     id: string;
     userId: string;
     personalityResults?: Record<string, any>;
@@ -11,7 +11,7 @@ interface AssessmentAttributes {
     completedAt?: Date;
 }
 
-export class Assessment extends Model<AssessmentAttributes> implements AssessmentAttributes {
+export class Assessment extends Model<assessmentAttributes> implements assessmentAttributes {
     public id!: string;
     public userId!: string;
     public personalityResults?: Record<string, any>;

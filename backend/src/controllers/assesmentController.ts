@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/connection';
+import sequelize from '../config/connection.js';
 import User from '../models/User.js';
 
-export const Assessment = sequelize.define('Assessment', {
+export const assessment = sequelize.define('assessment', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -33,5 +33,5 @@ export const Assessment = sequelize.define('Assessment', {
     }
 });
 
-Assessment.belongsTo(User);
-User.hasMany(Assessment);
+assessment.belongsTo(User);
+User.hasMany(assessment);
