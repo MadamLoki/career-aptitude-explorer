@@ -32,24 +32,34 @@ router.get('/questions', async (req, res) => {
     }
 });
 
-// Add endpoint for submitting answers
 router.post('/results', async (req, res) => {
     try {
         const { answers } = req.body;
 
         if (!answers || typeof answers !== 'object') {
             return res.status(400).json({
-                error: 'Invalid input',
-                details: 'Answers must be provided as an object'
+                error: 'Invalid request',
+                details: 'Answers object is required'
             });
         }
 
-        const results = await onetService.getInterestProfilerResults(answers);
+        console.log('Submitting answers to O*NET:', answers);
+
+        const results = await onetService.call('mnm/interestprofiler/results', {
+            method: 'POST',
+            body: JSON.stringify({ answers }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Store results in database here if needed
+
         return res.json(results);
     } catch (error) {
-        console.error('Error fetching O*NET results:', error);
+        console.error('Error submitting O*NET results:', error);
         return res.status(500).json({
-            error: 'Failed to fetch results from O*NET',
+            error: 'Failed to submit assessment results',
             details: error instanceof Error ? error.message : 'Unknown error'
         });
     }

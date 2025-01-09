@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, ThumbsUp, ThumbsDown, HelpCircle, Home } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Question {
     index: number;
@@ -97,12 +97,54 @@ function Assessment(): JSX.Element {
         }
     };
 
+    const navigate = useNavigate();
+
+    const submitAssessment = async () => {
+        try {
+            setLoading(true);
+            console.log('Submitting answers:', answers);
+
+            const response = await fetch('/api/onet/results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ answers })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('API Error:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    errorText
+                });
+                throw new Error(`Failed to submit assessment: ${response.status}`);
+            }
+
+            const results = await response.json();
+            console.log('Assessment results:', results);
+            
+            // Navigate to results page with the data
+            navigate('/results', { state: { results } });
+        } catch (err) {
+            console.error('Error submitting assessment:', err);
+            setError(err instanceof Error ? err.message : 'Failed to submit assessment');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleNext = () => {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(prev => prev + 1);
         } else if (currentBatchStart + 12 <= totalQuestions) {
             setCurrentBatchStart(prev => prev + 12);
             setCurrentQuestionIndex(0);
+        } else {
+            // All questions completed
+            submitAssessment();
         }
     };
 

@@ -1,6 +1,6 @@
 // backend/src/services/OnetService.ts
 class OnetWebService {
-    private baseURL: string | undefined;
+    private baseURL: string = '';
     private authHeader: string;
 
     constructor(username: string, password: string) {
@@ -15,7 +15,7 @@ class OnetWebService {
             : 'https://services.onetcenter.org/ws/';
     }
 
-    private async call(path: string, query?: Record<string, any>) {
+    async call(path: string, query?: Record<string, any>, options: RequestInit = {}) {
         try {
             // Construct URL with query parameters
             const url = new URL(path, this.baseURL);
@@ -25,21 +25,25 @@ class OnetWebService {
                 });
             }
 
-            console.log('Making O*NET API call to:', url.toString());
+            console.log(`Making O*NET API call to: ${url.toString()}`);
 
             const response = await fetch(url, {
-                method: 'GET',
+                ...options,
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': this.authHeader,
-                    'User-Agent': 'nodejs-OnetWebService/1.00'
+                    'User-Agent': 'nodejs-OnetWebService/1.00',
+                    ...options.headers
                 }
             });
 
             if (!response.ok) {
-                if (response.status === 422) {
-                    return response.json();
-                }
+                const errorText = await response.text();
+                console.error('O*NET API Error:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    errorText
+                });
                 throw new Error(`API call failed with status ${response.status}`);
             }
 
