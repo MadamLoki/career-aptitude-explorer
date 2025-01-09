@@ -11,6 +11,7 @@
 		"server:dev": "cd backend && npm run dev",
 		"server:build": "cd backend && npm run build",
 		"client:dev": "cd frontend && npm run dev",
+		"client:start": "cd frontend && npm run start",
 		"client:build": "cd frontend && npm run build",
 		"install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
 	},
