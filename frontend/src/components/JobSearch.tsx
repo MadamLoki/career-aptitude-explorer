@@ -10,6 +10,7 @@ interface JobListing {
     salary_min: number;
     salary_max: number;
     created: string;
+    redirect_url: string;
 }
 
 const JobSearch: React.FC = () => {
@@ -157,9 +158,10 @@ const JobSearch: React.FC = () => {
                                     </div>
                                 </div>
                                 <p className="text-gray-400 text-sm">{job.description}</p>
-                                <button className="text-sm text-teal-400 hover:text-teal-300 transition-colors">
-                                    View Details →
-                                </button>
+                                <a href={job.redirect_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors group" >
+                                    View Details 
+                                    <span className="transform transition-transform group-hover:translate-x-1">→</span>
+                                </a>
                             </div>
                         </div>
                     ))}
