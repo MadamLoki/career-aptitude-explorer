@@ -2,7 +2,7 @@ import { Router } from 'express';
 const { body } = require('express-validator');
 const { validateRequest } = require('../middleware/validate');
 const { register, login, logout } = require('../controllers/auth');
-import jobRoutes from '../jobs';
+import jobRoutes from '../jobs.js';
 import { Request, Response, NextFunction } from 'express';
 
 const router = Router();

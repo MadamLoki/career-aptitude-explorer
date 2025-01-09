@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '../config/database';
-import { User } from '../middleware/user';
+import sequelize from '../config/connection.js';
+import { User } from '../middleware/user.js';
 
 interface AssessmentAttributes {
     id: string;
@@ -51,6 +51,9 @@ Assessment.init({
     }
 }, {
     sequelize,
+    tableName: 'assessments',
+    timestamps: true,
+    underscored: true,
     modelName: 'Assessment'
 });
 

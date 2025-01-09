@@ -23,12 +23,13 @@ const JobSearch: React.FC = () => {
         setLoading(true);
         setError(null);
         try {
+            const API_BASE_URL = import.meta.env.ADZUNA_API_URL || '';
             const response = await fetch(
-                `/api/jobs/us/search?` +
+                `${API_BASE_URL}/api/jobs/us/search?` +
                 `what=${encodeURIComponent(searchTerm)}&` +
                 `where=${encodeURIComponent(location)}`
             );
-    
+            console.log(response);
             if (!response.ok) throw new Error('Failed to fetch job listings');
             const data = await response.json();
             setResults(data.results);
@@ -67,17 +68,17 @@ const JobSearch: React.FC = () => {
                             <div className="absolute inset-y-0 left-3 flex items-center">
                                 <MapPin className="w-5 h-5 text-teal-400" />
                             </div>
-                            <input 
-                                type="text" 
-                                value={location} 
-                                onChange={(e) => setLocation(e.target.value)} 
-                                placeholder="Location" 
-                                className="cyber-input pl-12 w-full" 
+                            <input
+                                type="text"
+                                value={location}
+                                onChange={(e) => setLocation(e.target.value)}
+                                placeholder="Location"
+                                className="cyber-input pl-12 w-full"
                             />
                         </div>
-                        <button 
-                            type="submit" 
-                            disabled={loading} 
+                        <button
+                            type="submit"
+                            disabled={loading}
                             className="bg-transparent border border-teal-500/50 hover:border-teal-400 px-6 py-3 text-teal-400 transition-all hover:bg-teal-500/10 animate-cyber-pulse disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? 'Searching...' : 'Search Jobs'}

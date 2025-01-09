@@ -12,7 +12,7 @@ router.get('/search', async (req, res) => {
             `what=${what}&` +
             `where=${where}`
         );
-
+        console.log("Backend:", response);
         if (!response.ok) {
             throw new Error(`Adzuna API responded with status ${response.status}`);
         }

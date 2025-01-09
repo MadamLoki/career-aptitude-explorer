@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3001;
 
 // Add CORS middleware first
 app.use(cors({
-    origin: 'http://localhost:5173' 
+    origin: 'https://api.adzuna.com/v1/api' 
 }));
 
 app.use(express.json());

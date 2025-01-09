@@ -1,11 +1,11 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
-import { sequelize } from './config/database';
-import authRoutes from './api/routes/routes';
-import assessmentRoutes from './api/assessment';
-import careerRoutes from './api/careers';
-import jobRoutes from './api/jobs';  // Add this import
-import cors from 'cors';  // Add CORS
+import cors from 'cors';
+import { connectToDatabase } from './config/database.js';
+import authRoutes from './api/routes/routes.js';
+import assessmentRoutes from './api/assessment.js';
+import careerRoutes from './api/careers.js';
+import jobRoutes from './api/jobs.js';
 
 dotenv.config();
 
@@ -29,8 +29,12 @@ app.get('/test', (_req, res) => {
 });
 
 // Database connection and server start
-sequelize.sync().then(() => {
-    app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
+connectToDatabase().then((sequelize) => {
+    sequelize.sync().then(() => {
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`);
+        });
     });
+}).catch((error) => {
+    console.error('Unable to connect to the database:', error);
 });
