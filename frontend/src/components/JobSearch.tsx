@@ -20,21 +20,50 @@ const JobSearch: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const searchJobs = async () => {
+        if (!searchTerm || !location) {
+            setError('Please enter both a job title and location');
+            return;
+        }
+
         setLoading(true);
         setError(null);
+
         try {
-            const API_BASE_URL = import.meta.env.ADZUNA_API_URL || '';
-            const response = await fetch(
-                `${API_BASE_URL}/api/jobs/us/search?` +
-                `what=${encodeURIComponent(searchTerm)}&` +
-                `where=${encodeURIComponent(location)}`
-            );
-            console.log(response);
-            if (!response.ok) throw new Error('Failed to fetch job listings');
+            const queryParams = new URLSearchParams({
+                what: searchTerm,
+                where: location
+            });
+
+            console.log('Fetching from:', `/api/jobs/search?${queryParams}`);
+
+            const response = await fetch(`/api/jobs/search?${queryParams}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                const errorData = await response.text();
+                console.error('Error response:', errorData);
+                throw new Error(`Failed to fetch job listings: ${response.status}`);
+            }
+            
             const data = await response.json();
-            setResults(data.results);
+            console.log('Response data:', data);
+            
+            if (data && Array.isArray(data.results)) {
+                setResults(data.results);
+            } else {
+                console.error('Unexpected data format:', data);
+                throw new Error('Invalid response format');
+            }
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred');
+            console.error('Error in searchJobs:', err);
+            setError(err instanceof Error ? err.message : 'An error occurred while fetching jobs');
+            setResults([]);
         } finally {
             setLoading(false);
         }
@@ -50,7 +79,13 @@ const JobSearch: React.FC = () => {
         <div className="min-h-screen bg-gray-900 p-6">
             <div className="cyber-container">
                 {/* Search Form */}
-                <form onSubmit={(e) => { e.preventDefault(); searchJobs(); }} className="cyber-card mb-8">
+                <form 
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        searchJobs();
+                    }} 
+                    className="cyber-card mb-8"
+                >
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1 relative">
                             <div className="absolute inset-y-0 left-3 flex items-center">
@@ -62,6 +97,7 @@ const JobSearch: React.FC = () => {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Job title or keywords"
                                 className="cyber-input pl-12 w-full"
+                                required
                             />
                         </div>
                         <div className="flex-1 relative">
@@ -74,6 +110,7 @@ const JobSearch: React.FC = () => {
                                 onChange={(e) => setLocation(e.target.value)}
                                 placeholder="Location"
                                 className="cyber-input pl-12 w-full"
+                                required
                             />
                         </div>
                         <button

@@ -6,8 +6,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.adzuna.com/v1/api',
-        changeOrigin: true
+        target: 'http://localhost:3000',  // Your backend server port
+        changeOrigin: true,
+        secure: false
       }
     }
   }
