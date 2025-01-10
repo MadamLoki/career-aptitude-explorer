@@ -25,8 +25,6 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
     public password!: string;
     public lastLogin!: Date;
     public isActive!: boolean;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
 
     async verifyPassword(password: string): Promise<boolean> {
         return bcrypt.compare(password, this.password);
@@ -78,7 +76,7 @@ User.init(
     {
         sequelize,
         tableName: 'users',
-        timestamps: true,
+        timestamps: false,
         hooks: {
             beforeCreate: async (user: User) => {
                 if (user.changed('password')) {
