@@ -1,11 +1,10 @@
-import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ChevronRight, Target } from 'lucide-react';
 
 interface ResultData {
     area: string;
     score: number;
+    value?: number;
     description: string;
 }
 
@@ -16,44 +15,81 @@ interface ResultsData {
     result: ResultData[];
 }
 
-const Results: React.FC = () => {
-    const { state } = useLocation();
-    const { results } = state as { results: ResultsData };
+const AssessmentResults = () => {
+    const location = useLocation();
+    const resultsData = location.state?.results as ResultsData;
+
+    console.log('Raw results data:', resultsData);
+
+    if (!resultsData || !resultsData.result) {
+        return (
+            <div className="min-h-screen bg-gray-900 p-6">
+                <div className="text-gray-400">No results available</div>
+            </div>
+        );
+    }
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-            <div className="w-full max-w-4xl">
-                <div className="cyber-card p-8">
-                    <div className="mb-8">
-                        <h1 className="cyber-title text-3xl">Assessment Results</h1>
-                    </div>
+        <div className="min-h-screen bg-gray-900 p-6">
+            <div className="max-w-6xl mx-auto">
+                <div className="bg-gray-800/30 rounded-lg p-8">
+                    <h1 className="text-3xl font-bold text-white mb-6">Assessment Results</h1>
+                    
+                    {/* Results Grid */}
+                    <div className="grid gap-6 md:grid-cols-2">
+                        {resultsData.result.map((area: ResultData, index: number) => {
+                            // Calculate display score
+                            const displayScore = area.score ?? area.value ?? 0;
+                            
+                            return (
+                                <div 
+                                    key={index}
+                                    className="border border-teal-500/30 bg-gray-800/50 p-6 hover:bg-gray-800/70 transition-all group"
+                                >
+                                    <div className="flex items-start gap-4">
+                                        <div className="flex-shrink-0 p-2 border border-teal-500/30 bg-teal-500/10">
+                                            <Target className="w-6 h-6 text-teal-400" />
+                                        </div>
+                                        
+                                        <div className="space-y-4 flex-1">
+                                            {/* Area Title and Score */}
+                                            <div className="flex justify-between items-start">
+                                                <h3 className="text-xl font-semibold text-white">
+                                                    {area.area}
+                                                </h3>
+                                                <div className="text-xl font-bold text-teal-400">
+                                                    {Math.round(displayScore)}%
+                                                </div>
+                                            </div>
 
-                    <div className="space-y-6">
-                        {results.result.map((result, index) => (
-                            <div key={index} className="bg-gray-800 p-6 rounded-lg">
-                                <h2 className="cyber-subtitle text-2xl mb-4">{result.area}</h2>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p className="text-gray-400 mb-2">Score:</p>
-                                        <p className="text-teal-400 text-3xl font-bold">{typeof result.score === 'number' ? result.score : 'N/A'}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-gray-400 mb-2">Description:</p>
-                                        <p className="text-gray-300">{result.description}</p>
+                                            {/* Score Visualization */}
+                                            <div className="h-1.5 bg-gray-800 rounded-full">
+                                                <div 
+                                                    className="h-full bg-teal-400 rounded-full transition-all group-hover:bg-teal-300"
+                                                    style={{ 
+                                                        width: `${Math.min(Math.max(displayScore, 0), 100)}%` 
+                                                    }}
+                                                />
+                                            </div>
+
+                                            {/* Description */}
+                                            <p className="text-gray-400 text-sm">
+                                                {area.description}
+                                            </p>
+
+                                            {/* Action Link */}
+                                            <button 
+                                                className="flex items-center gap-2 text-teal-400 text-sm group-hover:text-teal-300 transition-colors"
+                                                onClick={() => console.log(`View details for ${area.area}`)}
+                                            >
+                                                Explore {area.area} Careers
+                                                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="flex justify-between items-center mt-8">
-                        <p className="text-gray-400">
-                            Answers: {results.start} - {results.end} of {results.total}
-                        </p>
-                        <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all" >
-                            <ChevronLeft className="w-4 h-4" />
-                            Go Back
-                        </Link>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -61,4 +97,4 @@ const Results: React.FC = () => {
     );
 };
 
-export default Results;
+export default AssessmentResults;

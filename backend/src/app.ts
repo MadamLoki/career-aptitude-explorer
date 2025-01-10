@@ -13,8 +13,14 @@ import onetRoutes from './api/onet.js';
 
 dotenv.config();
 
+// Create express app
 const app: Express = express();
 const port = process.env.PORT || 3000;
+
+//home route
+app.get('/', (_req, res) => {
+    res.json({ message: 'Welcome to the ASPIRE Career API Dashboard' });
+});
 
 // Add CORS middleware
 app.use(cors());

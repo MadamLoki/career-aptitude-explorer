@@ -99,11 +99,34 @@ function Assessment(): JSX.Element {
 
     const navigate = useNavigate();
 
+    interface AreaResult {
+        area: string;
+        description: string;
+    }
+    
     const submitAssessment = async () => {
         try {
             setLoading(true);
-            console.log('Submitting answers:', answers);
-
+    
+            // Calculate scores for each area
+            const areaScores = questions.reduce((acc, question) => {
+                if (!acc[question.area]) {
+                    acc[question.area] = {
+                        totalScore: 0,
+                        count: 0
+                    };
+                }
+                
+                const answer = answers[question.index];
+                if (answer) {
+                    acc[question.area].totalScore += answer;
+                    acc[question.area].count += 1;
+                }
+                
+                return acc;
+            }, {} as Record<string, { totalScore: number; count: number }>);
+    
+            // Make the API call with answers
             const response = await fetch('/api/onet/results', {
                 method: 'POST',
                 headers: {
@@ -112,22 +135,28 @@ function Assessment(): JSX.Element {
                 },
                 body: JSON.stringify({ answers })
             });
-
+    
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('API Error:', {
-                    status: response.status,
-                    statusText: response.statusText,
-                    errorText
-                });
-                throw new Error(`Failed to submit assessment: ${response.status}`);
+                throw new Error('Failed to submit assessment');
             }
-
-            const results = await response.json();
-            console.log('Assessment results:', results);
+    
+            const apiResults = await response.json();
             
-            // Navigate to results page with the data
-            navigate('/results', { state: { results } });
+            // Transform the results to include calculated scores
+            const transformedResults = {
+                ...apiResults,
+                result: apiResults.result.map((area: AreaResult) => ({
+                    ...area,
+                    score: areaScores[area.area] 
+                        ? Math.round((areaScores[area.area].totalScore / areaScores[area.area].count) * 20) // Scale to 0-100
+                        : 0
+                }))
+            };
+    
+            console.log('Transformed results:', transformedResults);
+            
+            // Navigate to results page with transformed data
+            navigate('/results', { state: { results: transformedResults } });
         } catch (err) {
             console.error('Error submitting assessment:', err);
             setError(err instanceof Error ? err.message : 'Failed to submit assessment');
@@ -163,10 +192,7 @@ function Assessment(): JSX.Element {
                 <div className="cyber-card p-8 text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-400 mx-auto mb-4"></div>
                     <p className="cyber-text mb-6">Loading questions...</p>
-                    <Link 
-                        to="/"
-                        className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all"
-                    >
+                    <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all" >
                         <Home className="w-4 h-4" />
                         Go Home
                     </Link>
@@ -181,16 +207,10 @@ function Assessment(): JSX.Element {
                 <div className="cyber-card p-8 text-center border-red-500/30">
                     <p className="text-red-400 mb-4">{error}</p>
                     <div className="flex items-center justify-center gap-4">
-                        <button 
-                            onClick={() => fetchQuestions(currentBatchStart)}
-                            className="cyber-button"
-                        >
+                        <button onClick={() => fetchQuestions(currentBatchStart)} className="cyber-button" >
                             Try Again
                         </button>
-                        <Link 
-                            to="/"
-                            className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all"
-                        >
+                        <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all" >
                             <Home className="w-4 h-4" />
                             Go Home
                         </Link>
@@ -206,10 +226,7 @@ function Assessment(): JSX.Element {
             <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
                 <div className="cyber-card p-8 text-center">
                     <p className="text-red-400 mb-4">No questions available</p>
-                    <Link 
-                        to="/"
-                        className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all"
-                    >
+                    <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all" >
                         <Home className="w-4 h-4" />
                         Go Home
                     </Link>
@@ -251,46 +268,25 @@ function Assessment(): JSX.Element {
                             <button
                                 key={option.value}
                                 onClick={() => handleAnswer(currentQuestionIndex, option.value)}
-                                className={`w-full text-left p-4 border ${
-                                    answers[currentQuestion.index] === option.value
-                                        ? 'border-teal-500 bg-teal-500/10'
-                                        : 'border-teal-500/30 hover:border-teal-400 hover:bg-teal-500/5'
-                                } transition-all group flex items-center justify-between`}
-                            >
+                                className={`w-full text-left p-4 border ${answers[currentQuestion.index] === option.value ? 'border-teal-500 bg-teal-500/10' : 'border-teal-500/30 hover:border-teal-400 hover:bg-teal-500/5' } transition-all group flex items-center justify-between`} >
                                 <span className="text-gray-300">{option.name}</span>
-                                {answers[currentQuestion.index] === option.value && (
-                                    option.value <= 2 ? <ThumbsDown className="w-5 h-5 text-red-400" /> :
-                                    option.value === 3 ? <HelpCircle className="w-5 h-5 text-yellow-400" /> :
-                                    <ThumbsUp className="w-5 h-5 text-green-400" />
-                                )}
+                                {answers[currentQuestion.index] === option.value && (option.value <= 2 ? <ThumbsDown className="w-5 h-5 text-red-400" /> : option.value === 3 ? <HelpCircle className="w-5 h-5 text-yellow-400" /> : <ThumbsUp className="w-5 h-5 text-green-400" />)}
                             </button>
                         ))}
                     </div>
 
                     <div className="flex justify-between mt-8">
                         <div className="flex items-center gap-4">
-                            <button
-                                onClick={handlePrevious}
-                                disabled={currentBatchStart === 1 && currentQuestionIndex === 0}
-                                className="flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
+                            <button onClick={handlePrevious} disabled={currentBatchStart === 1 && currentQuestionIndex === 0} className="flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 disabled:opacity-50 disabled:cursor-not-allowed" >
                                 <ChevronLeft className="w-4 h-4" />
                                 Previous
                             </button>
-                            <Link 
-                                to="/"
-                                className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all"
-                            >
-                                <Home className="w-4 h-4" />
+                            <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all" > <Home className="w-4 h-4" />
                                 Go Home
                             </Link>
                         </div>
 
-                        <button
-                            onClick={handleNext}
-                            disabled={!answers[currentQuestion.index]}
-                            className="flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
+                        <button onClick={handleNext} disabled={!answers[currentQuestion.index]} className="flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 disabled:opacity-50 disabled:cursor-not-allowed" >
                             {currentBatchStart + currentQuestionIndex === totalQuestions ? 'Complete' : 'Next'}
                             <ChevronRight className="w-4 h-4" />
                         </button>
