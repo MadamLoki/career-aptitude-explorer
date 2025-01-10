@@ -10,8 +10,9 @@ import { setupAssociations } from './models/associations.js';
 import authRoutes from './api/routes/routes.js';
 import assessmentRoutes from './api/assessmentApi.js';
 import careerRoutes from './api/careers.js';
-import jobRoutes from './api/jobs.js';
+import { getJobs } from './controllers/jobController.js';
 import onetRoutes from './api/onet.js';
+
 
 dotenv.config();
 
@@ -33,7 +34,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/assessmentApi', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
-app.use('/api/jobs', jobRoutes);
+app.use('/api/jobs', getJobs);
 app.use('/api/onet', onetRoutes);
 
 // Add a test route

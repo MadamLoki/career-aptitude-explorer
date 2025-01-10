@@ -1,37 +1,26 @@
 import { Request, Response } from 'express';
-import { Pool } from 'pg';
+import Job from '../models/Job.js';
+import { Op } from 'sequelize';
 
-// PostgreSQL pool
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-});
-
-// Get jobs by title
 export const getJobs = async (req: Request, res: Response) => {
-    const { title } = req.query;
-
+    const title = req.query.title as string;
+    // Check if the title parameter is missing or invalid
     if (!title || typeof title !== 'string') {
         return res.status(400).json({ error: 'Invalid or missing title parameter' });
     }
+    // Query the database for jobs matching the title
+    try { 
+        const jobs = await Job.findAll({
+            where: {
+                title: {
+                    [Op.iLike]: `%${title}%`
+                }
+            },
+            order: [['created', 'DESC']],
+            limit: 20
+        });
 
-    try {
-        // Query the database for jobs matching the title
-        const result = await pool.query(
-            `
-            SELECT 
-                job_id, title, description, company_name, location_name,
-                latitude, longitude, salary_min, salary_max, salary_is_predicted,
-                category_label, contract_type, contract_time, created, redirect_url
-            FROM Jobs
-            WHERE title ILIKE $1
-            ORDER BY created DESC
-            LIMIT 50;
-            `,
-            [`%${title}%`]
-        );
-
-        // Return the results
-        res.json(result.rows);
+        res.json(jobs);
     } catch (error) {
         console.error('Error fetching jobs:', error);
         res.status(500).json({ error: 'Internal server error' });
