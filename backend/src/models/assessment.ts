@@ -7,6 +7,8 @@ interface assessmentAttributes {
     userId: string;
     personalityResults?: Record<string, any>;
     skillsResults?: Record<string, any>;
+    answers: string;
+    onetResults: Record<string, any>;
     careerMatches?: Record<string, any>;
     completedAt?: Date;
 }
@@ -14,10 +16,14 @@ interface assessmentAttributes {
 export class Assessment extends Model<assessmentAttributes> implements assessmentAttributes {
     public id!: string;
     public userId!: string;
+    public answers!: string;
+    public onetResults!: Record<string, any>;
     public personalityResults?: Record<string, any>;
     public skillsResults?: Record<string, any>;
     public careerMatches?: Record<string, any>;
     public completedAt?: Date;
+
+    // You can add methods here if needed
 }
 
 Assessment.init({
@@ -33,6 +39,14 @@ Assessment.init({
             model: User,
             key: 'id'
         },
+    },
+    answers: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    onetResults: {
+        type: DataTypes.JSONB,
+        allowNull: false
     },
     personalityResults: {
         type: DataTypes.JSONB,

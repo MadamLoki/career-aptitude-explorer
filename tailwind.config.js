@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./frontend/Aspire/src/**/*.{js,jsx,ts,tsx}",
-    "./frontend/Aspire/index.html",
+    "./frontend/src/**/*.{js,jsx,ts,tsx}",
+    "./frontend/index.html",
   ],
   theme: {
     extend: {
