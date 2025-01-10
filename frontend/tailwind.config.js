@@ -1,16 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./frontend/src/**/*.{js,jsx,ts,tsx}",
+    "./frontend/index.html",
   ],
   theme: {
     extend: {
-      colors: {
-        primary: 'var(--primary)',
-        'primary-dark': 'var(--primary-dark)',
-      },
+
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/container-queries'),
+  ],
 }
