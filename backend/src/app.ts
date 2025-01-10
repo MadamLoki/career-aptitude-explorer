@@ -1,4 +1,6 @@
 import express, { Express } from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { connectToDatabase } from './config/database.js';
@@ -13,14 +15,15 @@ import onetRoutes from './api/onet.js';
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Create express app
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
 //home route
-app.get('/', (_req, res) => {
-    res.json({ message: 'Welcome to the ASPIRE Career API Dashboard' });
-});
+app.use(express.static(path.join(__dirname, '../')));
 
 // Add CORS middleware
 app.use(cors());
