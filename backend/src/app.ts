@@ -11,9 +11,8 @@ import { setupAssociations } from './models/associations.js';
 import authRoutes from './api/routes/routes.js';
 import assessmentRoutes from './api/assessmentApi.js';
 import careerRoutes from './api/careers.js';
-import { getJobs } from './controllers/jobController.js';
+import jobRoutes from './api/jobs.js';
 import onetRoutes from './api/onet.js';
-
 
 dotenv.config();
 
@@ -28,15 +27,26 @@ const port = process.env.PORT || 3000;
 // Serve static files from the frontend build directory
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Add CORS middleware
-app.use(cors());
+// Add CORS middleware with more specific configuration
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'https://api.adzuna.com/v1/api'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true, // Enable credentials if you need to handle cookies/auth
+    optionsSuccessStatus: 204 // Some legacy browsers (IE11) choke on 204
+}));
+
+// Body parser middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/assessmentApi', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
-app.use('/api/jobs', getJobs);
+app.use('/api/jobs', jobRoutes); // Use the router instead of controller directly
 app.use('/api/onet', onetRoutes);
 
 // Serve React app for all other routes
