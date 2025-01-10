@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.ADZUNA_DB_URL;
 
 if (!databaseUrl) {
     throw new Error('DATABASE_URL is not set in the environment variables');
