@@ -23,6 +23,6 @@
     /* Type Definitions */
     "types": ["node", "vite/client"]
   },
-  "include": ["src", "**/*.ts", "**/*.tsx"],
+  "include": ["src", "**/*.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
