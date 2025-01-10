@@ -1,18 +1,29 @@
+import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
+
+dotenv.config();
 
 let sequelize: Sequelize;
 
-if (process.env.DB_URL) {
-    sequelize = new Sequelize(process.env.DB_URL);
-} else {
-    const dbName = process.env.DB_NAME as string;
-    const dbUser = process.env.DB_USER as string;
-    const dbPassword = process.env.DB_PW as string;
-
-    sequelize = new Sequelize(dbName, dbUser, dbPassword, {
-        host: 'localhost',
+if (process.env.DATABASE_URL) {
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
         dialect: 'postgres',
+        logging: false,
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        },
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        }
     });
+} else {
+    throw new Error('DATABASE_URL is required');
 }
 
 export default sequelize;

@@ -8,13 +8,16 @@ import authenticateToken from '../middleware/authMiddleware.js';
 
 const router = Router();
 
-router.post('/register', async (req: Request<{}, {}, RegisterRequest>, res: Response): Promise<Response> => {
+// Update the registration endpoint in authApi.ts
+router.post('/register', async (req: Request<{}, {}, RegisterRequest>, res: Response) => {
     try {
         const { email, password, name } = req.body;
+        console.log('Received registration request:', { email, name });
 
         // Check if user already exists
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
+            console.log('Registration failed: User already exists:', email);
             return res.status(400).json({ 
                 success: false,
                 error: 'User already exists' 
@@ -26,9 +29,11 @@ router.post('/register', async (req: Request<{}, {}, RegisterRequest>, res: Resp
         const user = await User.create({
             email,
             password: hashedPassword,
-            username: name || email.split('@')[0],
+            username: name || email.split('@')[0], // Use name for username if provided
             isActive: true
         } as UserAttributes);
+
+        console.log('User created successfully:', { id: user.id, email: user.email });
 
         const token = generateToken({ id: user.id, email: user.email });
 
