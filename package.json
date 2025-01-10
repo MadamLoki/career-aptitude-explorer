@@ -6,11 +6,12 @@
 	"scripts": {
 		"dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
 		"start": "node backend/dist/app.js",
-		"build": "npm run build:backend && npm run build:frontend",
-		"build:backend": "cd backend && tsc",
-		"build:frontend": "cd frontend && npm install && npm run build",
+		"build": "npm run install:all && npm run build:backend && npm run build:frontend",
+		"build:backend": "cd backend && npm run build",
+		"build:frontend": "cd frontend && npm run build",
 		"server:dev": "cd backend && npm run dev",
-		"client:dev": "cd frontend && npm run dev"
+		"client:dev": "cd frontend && npm run dev",
+		"install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
 	},
 	"devDependencies": {
 		"concurrently": "^8.2.0",
