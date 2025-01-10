@@ -5,18 +5,7 @@ import { register, login, logout } from '../../controllers/authController.js';
 import jobRoutes from '../jobs.js';
 import { Request, Response, NextFunction } from 'express';
 
-import path from 'path';
-import { fileURLToPath } from 'url';
-
 const router = Router();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Home route
-router.get('/', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../../../index.html'));
-});
 
 // Job routes
 router.use('/api/jobs', jobRoutes);
