@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import cors from 'cors';
+
 import { connectToDatabase } from './config/database.js';
 import User from './models/User.js';
 import Assessment from './models/assessment.js';
@@ -16,30 +17,31 @@ import onetRoutes from './api/onet.js';
 
 dotenv.config();
 
+// Define __filename and __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Create express app
+// Initialize Express app
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-//home route
-app.use(express.static(path.join(__dirname, '../')));
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // Add CORS middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/assessmentApi', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', getJobs);
 app.use('/api/onet', onetRoutes);
 
-// Add a test route
-app.get('/test', (_req, res) => {
-    res.json({ message: 'Server is working!' });
+// Serve React app for all other routes
+app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 // Function to log registered routes
