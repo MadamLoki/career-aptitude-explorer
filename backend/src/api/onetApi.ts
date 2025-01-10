@@ -81,7 +81,7 @@ router.post('/results', async (req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
+        }) as { result: any[] };
 
         console.log('Raw O*NET response:', results);
 
@@ -90,7 +90,7 @@ router.post('/results', async (req, res) => {
 
         // Transform the results to include scores
         const transformedResults = {
-            ...results,
+            ...(typeof results === 'object' ? results : {}),
             result: results.result.map((area: any) => ({
                 ...area,
                 score: areaScores[area.area] || 0

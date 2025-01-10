@@ -12,7 +12,7 @@ router.post('/', authenticateToken, async (req: AuthenticatedRequest, res) => {
         const { answers } = req.body;
         
         // Get O*NET results for the answers
-        const onetResults = await onetService.getInterestProfilerResults(answers);
+        const onetResults = await onetService.getInterestProfilerResults(answers) as Record<string, any>;
         
         // Create assessment with both answers and results
         const newAssessment = await Assessment.create({
