@@ -5,11 +5,17 @@ import { register, login, logout } from '../../controllers/authController.js';
 import jobRoutes from '../jobs.js';
 import { Request, Response, NextFunction } from 'express';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 const router = Router();
 
-//home route
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Home route
 router.get('/', (_req, res) => {
-    res.json({ message: 'Welcome to the ASPIRE Career API' });
+    res.sendFile(path.join(__dirname, '../../../index.html'));
 });
 
 // Job routes
