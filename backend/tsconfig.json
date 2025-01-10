@@ -1,31 +1,17 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",  // Changed from "bundler" to "node"
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
-    "noImplicitOverride": true,
-    "useUnknownInCatchVariables": true,
-    "baseUrl": "./",
+    "skipLibCheck": true,
     "outDir": "./dist",
-    "rootDir": "./src"
-  },
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
+    "rootDir": "./src",
+    "allowJs": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]  // Added dist to exclude
+  "exclude": ["node_modules", "dist"]
 }
