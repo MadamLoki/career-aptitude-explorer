@@ -1,4 +1,4 @@
-// src/types/authTypes.ts
+// backend/src/types/authTypes.ts
 import { Request } from 'express';
 
 export interface UserPayload {
@@ -19,7 +19,4 @@ export interface LoginRequest {
 
 export interface AuthenticatedRequest extends Request {
     user?: UserPayload;
-    cookies: {
-        token?: string;
-    };
 }
