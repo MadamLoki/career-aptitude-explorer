@@ -2,13 +2,13 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import { validateRequest } from '../../middleware/validate.js';
 import { register, login, logout } from '../../controllers/authController.js';
-import { getJobs } from '../../controllers/jobController.js';
+import jobRoutes from '../jobs.js';
 import { Request, Response, NextFunction } from 'express';
 
 const router = Router();
 
-// Job routes
-router.use('/api/jobs', getJobs);
+// Job routes - Use the imported jobRoutes router
+router.use('/jobs', jobRoutes);
 
 // Registration route with validation
 router.post(

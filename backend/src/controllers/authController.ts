@@ -57,3 +57,9 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 export const logout = (_req: Request, res: Response) => {
     return res.json({ message: 'Logged out successfully' });
 };
+
+export default {
+    register,
+    login,
+    logout
+};
