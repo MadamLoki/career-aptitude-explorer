@@ -10,7 +10,7 @@ import Assessment from './models/assessment.js';
 import { setupAssociations } from './models/associations.js';
 import authRoutes from './api/authApi.js';
 import assessmentRoutes from './api/assessmentApi.js';
-import careerRoutes from './api/careers.js';
+import careerRoutes from './api/career.js';
 import jobRoutes from './api/jobs.js';
 import onetRoutes from './api/onetApi.js';
 
@@ -24,23 +24,31 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' ? false : '',
+    origin: process.env.NODE_ENV === 'production' 
+        ? process.env.CLIENT_URL 
+        : 'http://localhost:5173',
     credentials: true
 }));
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/assessment', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', jobRoutes);
-app.use('/api/onet', onetRoutes); // Add the O*NET routes
+app.use('/api/onet', onetRoutes);
 
-// Test route
-app.get('/test', (_req, res) => {
-    res.json({ message: 'Server is working!' });
-});
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+    // Serve static files from the React app
+    const staticPath = path.join(__dirname, '../../frontend/dist');
+    app.use(express.static(staticPath));
+
+    // Handle React routing, return all requests to React app
+    app.get('*', (_req, res) => {
+        res.sendFile(path.join(staticPath, 'index.html'));
+    });
+}
 
 // Database connection and server start
 connectToDatabase()
