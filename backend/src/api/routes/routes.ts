@@ -7,6 +7,11 @@ import { Request, Response, NextFunction } from 'express';
 
 const router = Router();
 
+//home route
+router.get('/', (_req, res) => {
+    res.json({ message: 'Welcome to the ASPIRE Career API' });
+});
+
 // Job routes
 router.use('/api/jobs', getJobs);
 

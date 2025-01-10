@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Header from './components/Header.tsx';
 import { Home } from './pages/Home.tsx';
 import Contact from './pages/Contact.tsx';
@@ -9,6 +10,7 @@ import Assessment from './pages/Assessment.tsx';
 import Error from './components/Error.tsx';
 import Register from './components/Register.tsx';
 import JobSearch from './components/JobSearch.tsx';
+import Results from './pages/Results.tsx';
 
 function App() {
 	return (
@@ -24,6 +26,7 @@ function App() {
 					<Route path="/assessment" element={<Assessment />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/jobsearch" element={<JobSearch />} />
+					<Route path="/results" element={<Results />} />
 					// Add more routes as needed
 					<Route path="*" element={<Error />} />
 				</Routes>
