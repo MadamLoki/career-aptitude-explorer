@@ -12,6 +12,7 @@ import authRoutes from './api/authApi.js';
 import assessmentRoutes from './api/assessmentApi.js';
 import careerRoutes from './api/careers.js';
 import jobRoutes from './api/jobs.js';
+import onetRoutes from './api/onetApi.js';
 
 dotenv.config();
 
@@ -31,9 +32,10 @@ app.use(cors({
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/assessmentApi', assessmentRoutes);
+app.use('/api/assessment', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/onet', onetRoutes); // Add the O*NET routes
 
 // Test route
 app.get('/test', (_req, res) => {
