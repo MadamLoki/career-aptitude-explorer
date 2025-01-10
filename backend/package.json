@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "nodemon --exec node --loader ts-node/esm src/app.ts",
         "build": "rm -rf dist && tsc && npm run copy-files",
-        "copy-files": "cp package.json dist/ && cp .env dist/ || true",
+        "copy-files": "cp package.json dist/ && cp dist/ || true",
         "start": "node dist/app.js",
         "postinstall": "npm run build"
     },
