@@ -10,7 +10,7 @@ import Assessment from './models/assessment.js';
 import { setupAssociations } from './models/associations.js';
 import authRoutes from './api/authApi.js';
 import assessmentRoutes from './api/assessmentApi.js';
-import careerRoutes from './api/career.js';
+import careerRoutes from './api/careers.js';
 import jobRoutes from './api/jobs.js';
 import onetRoutes from './api/onetApi.js';
 
