@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 import cors from 'cors';
 import { connectToDatabase } from './config/database.js';
 import User from './models/User.js';
@@ -13,6 +14,7 @@ import assessmentRoutes from './api/assessmentApi.js';
 import careerRoutes from './api/careers.js';
 import jobRoutes from './api/jobs.js';
 import { createServer } from 'http';
+import routes from './api/routes/routes.js';
 
 dotenv.config();
 
@@ -40,23 +42,32 @@ app.use((req, res, next) => {
     next();
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/assessmentApi', assessmentRoutes);
-app.use('/api/careers', careerRoutes);
-app.use('/api/jobs', jobRoutes);
-
 // Serve static files from frontend build
-app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+const frontendPath = path.join(__dirname, '../../../frontend/dist');
+app.use(express.static(frontendPath));
 
 // Test route
 app.get('/api/test', (_req, res) => {
     res.json({ message: 'Server is working!' });
 });
 
+
+// API Routes
+app.use('/api', routes);
+app.use('/api/auth', authRoutes);
+app.use('/api/assessmentApi', assessmentRoutes);
+app.use('/api/careers', careerRoutes);
+app.use('/api/jobs', jobRoutes);
+
+
 // Catch-all route for SPA
 app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+    // Check if file exists
+    if (fs.existsSync(path.join(frontendPath, 'index.html'))) {
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    } else {
+        res.status(404).send('Frontend build not found');
+    }
 });
 
 // Graceful shutdown function
