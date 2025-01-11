@@ -8,7 +8,8 @@
     "rootDir": "./src",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "typeRoots": ["./node_modules/@types/", "./types", "./node_modules"],
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
