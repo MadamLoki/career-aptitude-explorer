@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/vite"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
