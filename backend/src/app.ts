@@ -15,6 +15,7 @@ import careerRoutes from './api/careers.js';
 import jobRoutes from './api/jobs.js';
 import { createServer } from 'http';
 import routes from './api/routes/routes.js';
+import onetRoutes from './api/onetApi.js';
 
 dotenv.config();
 
@@ -43,9 +44,8 @@ app.use((req, res, next) => {
 });
 
 // Serve static files from frontend build
-const frontendPath = path.join(__dirname, '../../../frontend/dist/index.html');
-console.log('Frontend path:', frontendPath);
-app.use(express.static(frontendPath));
+const frontendPath = path.join(__dirname, '../../../frontend/dist');
+console.log('Serving frontend from:', frontendPath);
 
 // Test route
 app.get('/api/test', (_req, res) => {
@@ -59,6 +59,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/assessmentApi', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/onet', onetRoutes);
 
 
 // Catch-all route for SPA
