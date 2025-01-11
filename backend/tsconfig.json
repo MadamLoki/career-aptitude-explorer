@@ -8,7 +8,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "typeRoots": ["./node_modules/vite"]
+    "typeRoots": ["./node_modules/vite"],
+    "types": ["@esbuild", "@rollup", "@types", "accepts", "array-flatten", "asynckit", "buffer-equal-constant-time", "bytes", "combined-stream", "content-disposition", "content-type", "cookie", "cookie-signature", "delayed-stream", "depd", "destroy", "dottie", "dunder-proto", "ee-first", "encodeurl", "escape-html", "etag", "finalhandler", "follow-redirects", "forwarded", "fresh", "function-bind", "get-intrinsic", "inflection", "inherits", "jwa", "jws", "lodash.includes", "lodash.isboolean", "lodash.isinteger", "lodash.isnumber", "lodash.isplainobject", "lodash.isstring", "lodash.once", "math-intrinsics", "media-typer", "merge-descriptors", "methods", "mime-db", "mime-types", "negotiator", "object-assign", "object-inspect", "obuf", "on-finished", "parseurl", "path-to-regexp", "pg-int8", "pg-numeric", "pg-pool", "pgpass", "postgres-bytea", "proxy-addr", "proxy-from-env", "safer-buffer", "semver", "split2", "statuses", "toidentifier", "toposort-class", "type-is", "unpipe", "utils-merge", "uuid", "vary", "xtend"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
