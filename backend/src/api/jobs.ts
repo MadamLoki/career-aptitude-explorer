@@ -1,6 +1,6 @@
 // src/api/jobs.ts
 import { Router } from 'express';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Request, Response } from 'express';
 
 const router = Router();
@@ -37,7 +37,7 @@ router.get('/search', async (req: Request, res: Response): Promise<Response | vo
     } catch (error) {
         console.error('Job search error:', error);
 
-        if (axios.isAxiosError(error)) {
+        if (error instanceof AxiosError) {
             if (error.response?.status === 429) {
                 return res.status(429).json({
                     error: 'Rate limit exceeded. Please try again later.'
