@@ -11,6 +11,8 @@ import Error from './components/Error.tsx';
 import Register from './components/Register.tsx';
 import JobSearch from './components/JobSearch.tsx';
 import Results from './pages/Results.tsx';
+import Skills from "./pages/Skills.tsx";
+
 
 function App() {
 	return (
@@ -29,6 +31,7 @@ function App() {
 					<Route path="/results" element={<Results />} />
 					// Add more routes as needed
 					<Route path="*" element={<Error />} />
+					<Route path="/skills" element={<Skills />} />
 				</Routes>
 
 				<Footer />

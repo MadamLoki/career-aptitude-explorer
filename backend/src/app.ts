@@ -17,6 +17,7 @@ import { createServer } from 'http';
 import routes from './api/routes/routes.js';
 import onetRoutes from './api/onetApi.js';
 
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -96,7 +97,7 @@ const shutDown = () => {
 // Database connection and server start
 const startServer = async () => {
     try {
-        await connectToDatabase();
+      await connectToDatabase();
         console.log('✓ Database connection established successfully.');
         
         setupAssociations();
