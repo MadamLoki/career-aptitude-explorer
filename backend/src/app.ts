@@ -44,6 +44,7 @@ app.use((req, res, next) => {
 
 // Serve static files from frontend build
 const frontendPath = path.join(__dirname, '../../../frontend/dist');
+console.log('Frontend path:', frontendPath);
 app.use(express.static(frontendPath));
 
 // Test route
@@ -62,11 +63,16 @@ app.use('/api/jobs', jobRoutes);
 
 // Catch-all route for SPA
 app.get('*', (_req, res) => {
-    // Check if file exists
-    if (fs.existsSync(path.join(frontendPath, 'index.html'))) {
-        res.sendFile(path.join(frontendPath, 'index.html'));
+    const indexPath = path.join(frontendPath, 'index.html');
+    
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
     } else {
-        res.status(404).send('Frontend build not found');
+        console.error(`Frontend build not found at ${indexPath}`);
+        res.status(404).json({
+            error: 'Frontend build not found',
+            path: indexPath
+        });
     }
 });
 
