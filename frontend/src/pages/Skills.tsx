@@ -67,7 +67,8 @@ function Skills() {
 				<div className="bg-grey-800/50 border border-teal-500/30 px-6 py-16 w-1/2 mx-auto">
 					{kata ? (
 						<div className="text-center text-gray-400">
-							<div className="my-14">{kata.name}</div>
+							<h1 className="text-4xl">Random Daily Kata</h1>
+							<div className="my-14 text-xl">{kata.name}</div>
 							<div>
 								<a href={kata.url} target="_blank" rel="noopener noreferrer">
 									<button className="hover:shadow-lg bg-teal-500/50 font-semibold border-teal-400 py-3 px-6">Codewars Link</button>
