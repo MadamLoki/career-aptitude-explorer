@@ -7,11 +7,20 @@
 		"dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
 		"start": "cd backend && npm start",
 		"test:render": "npm run build && npm start",
-		"build": "npm run build:backend && npm run build:frontend",
+		"build": "cd backend && npm install && tsc && cd ../frontend && npm install && npm run build",
 		"build:backend": "cd backend && npm install && npm run build",
 		"build:frontend": "cd frontend && npm install && npm run build",
 		"server:dev": "cd backend && npm run dev",
 		"client:dev": "cd frontend && npm run dev"
+	},
+	"dependencies": {
+		"express": "^4.18.2",
+		"bcryptjs": "^2.4.3",
+		"cors": "^2.8.5",
+		"@types/express": "^4.17.21",
+		"@types/bcryptjs": "^2.4.6",
+		"@types/cors": "^2.8.17",
+		"@types/jsonwebtoken": "^9.0.7"
 	},
 	"devDependencies": {
         "@types/bcryptjs": "^2.4.6",
