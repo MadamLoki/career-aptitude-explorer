@@ -67,7 +67,7 @@ function Skills() {
 				<div className="bg-grey-800/50 border border-teal-500/30 px-6 py-16 w-1/2 mx-auto">
 					{kata ? (
 						<div className="text-center text-gray-400">
-							<h1 className="text-4xl">Random Daily Kata</h1>
+							<h1 className="text-4xl font-bold">Random Daily Kata</h1>
 							<div className="my-14 text-xl">{kata.name}</div>
 							<div>
 								<a href={kata.url} target="_blank" rel="noopener noreferrer">
