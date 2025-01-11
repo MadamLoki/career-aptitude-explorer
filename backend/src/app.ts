@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 });
 
 // Serve static files from frontend build
-const frontendPath = path.join(__dirname, '../../../frontend/dist');
+const frontendPath = path.join(__dirname, '../../../frontend/dist/index.html');
 console.log('Frontend path:', frontendPath);
 app.use(express.static(frontendPath));
 
