@@ -46,30 +46,17 @@ app.use('/api/assessmentApi', assessmentRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/jobs', jobRoutes);
 
-// Serve static files from the React app with proper MIME types
-app.use(express.static(path.join(__dirname, '../../frontend/dist'), {
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.js')) {
-            res.set('Content-Type', 'application/javascript');
-        } else if (filePath.endsWith('.css')) {
-            res.set('Content-Type', 'text/css');
-        }
-    }
-}));
+// Serve static files from frontend build
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
 // Test route
 app.get('/api/test', (_req, res) => {
     res.json({ message: 'Server is working!' });
 });
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
+// Catch-all route for SPA
 app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'), {
-        headers: {
-            'Content-Type': 'text/html'
-        }
-    });
+    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
 });
 
 // Graceful shutdown function
