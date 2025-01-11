@@ -19,4 +19,8 @@ export interface LoginRequest {
 
 export interface AuthenticatedRequest extends Request {
     user?: UserPayload;
+    cookies: any;
+    header: any;
+    body: any;
+    params: any;
 }
