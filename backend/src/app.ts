@@ -45,8 +45,17 @@ app.use((req, res, next) => {
 });
 
 // Serve static files from frontend build
-const frontendPath = path.join(__dirname, '../../../frontend/dist');
-console.log('Serving frontend from:', frontendPath);
+const frontendPath = path.join(__dirname, '../../frontend/dist');
+console.log('__dirname:', __dirname);
+console.log('Resolved frontendPath:', frontendPath);
+fs.readdir(frontendPath, (err, files) => {
+    if (err) {
+        console.error('Error reading frontend directory:', err);
+    } else {
+        console.log('Frontend directory contents:', files);
+    }
+});
+app.use(express.static(frontendPath));
 
 // Test route
 app.get('/api/test', (_req, res) => {
@@ -66,7 +75,6 @@ app.use('/api/onet', onetRoutes);
 // Catch-all route for SPA
 app.get('*', (_req, res) => {
     const indexPath = path.join(frontendPath, 'index.html');
-    
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
     } else {
@@ -97,13 +105,13 @@ const shutDown = () => {
 // Database connection and server start
 const startServer = async () => {
     try {
-      await connectToDatabase();
+        await connectToDatabase();
         console.log('✓ Database connection established successfully.');
-        
+
         setupAssociations();
         await User.sync({ force: false, alter: true });
         await Assessment.sync({ force: false, alter: true });
-        
+
         console.log('✓ Database models synchronized.');
         console.log('Database synced');
 
