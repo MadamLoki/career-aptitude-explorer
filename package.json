@@ -32,7 +32,9 @@
 		"@types/pg": "^8.11.0",
 		"@types/sequelize": "^4.28.20",
 		"concurrently": "^8.2.2",
-		"typescript": "^5.7.3"
+		"typescript": "^5.7.3",
+		"@types/vite": "^latest",
+		"vite": "^6.0.7"
 	},
 	"engines": {
 		"node": ">=18.0.0"
