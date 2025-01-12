@@ -22,11 +22,8 @@ Have a collection of random college credits but no clear direction? The Career A
 
 ## Table of Contents
   - [Features](#features)
-  - [Installation](#installation)
   - [Usage](#usage)
   - [License](#license)
-  - [Contributing](#contributing)
-  - [Tests](#tests)
   - [Questions](#questions)
 
 ## Features
@@ -63,32 +60,15 @@ A step-by-step guide for entering selected careers, including:
 - Required education and certifications.
 - Recommended resources (courses, books, websites).
 
-## Installation
-  To install the necessary dependencies, run the following command:
-  ```
-  npm i
-  ```
-
 ## Usage
 The application is available at the link below.
 
-
+[Career Aptitude Explorer](https://career-aptitude-explorer-api.onrender.com/)
 
 ## License
 
 This project is licensed under the [MIT](https://choosealicense.com/licenses/MIT/) license.
-
-
-## Contributing
-  
-
-## Tests
- To run tests of this repo, execute the following command:
-  ```
-  npm test
-  ```
-
   
 ## Questions
   If you have any questions about the repo, please open an issue.
-  You can find more of our work at [MadamLoki](), [AOF-O5-1](), [Habichuela0](), [WilliamSheere](), and [azachman66](https://github.com/azachman66).
+  You can find more of our work at [MadamLoki](https://github.com/MadamLoki), [AOF-O5-1](https://github.com/AOF-O5-1), [Habichuela0](https://github.com/Habichuela0), [WilliamSheere](https://github.com/WilliamSheere), and [azachman66](https://github.com/azachman66).
