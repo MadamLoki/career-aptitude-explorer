@@ -33,7 +33,6 @@
 		"@types/sequelize": "^4.28.20",
 		"concurrently": "^8.2.2",
 		"typescript": "^5.7.3",
-		"@types/vite": "^5.0.3",
 		"vite": "^6.0.7"
 	},
 	"engines": {
