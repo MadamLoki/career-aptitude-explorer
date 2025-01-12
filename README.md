@@ -24,6 +24,7 @@ Have a collection of random college credits but no clear direction? The Career A
   - [Features](#features)
   - [Usage](#usage)
   - [License](#license)
+  - [Updates](#updates)
   - [Questions](#questions)
 
 ## Features
@@ -68,6 +69,10 @@ The application is available at the link below.
 ## License
 
 This project is licensed under the [MIT](https://choosealicense.com/licenses/MIT/) license.
+
+## Updates
+
+This application may have future developments and updates in some areas, such as industry insights, career matching, and community support.
   
 ## Questions
   If you have any questions about the repo, please open an issue.
