@@ -38,7 +38,7 @@ router.get('/questions', async (req, res) => {
     try {
         const { start = 1, end = 12 } = req.query;
         
-        console.log('Fetching O*NET questions:', { start, end });
+        // console.log('Fetching O*NET questions:', { start, end });
 
         if (!Number.isInteger(Number(start)) || !Number.isInteger(Number(end))) {
             return res.status(400).json({
@@ -54,7 +54,7 @@ router.get('/questions', async (req, res) => {
 
         return res.json(data);
     } catch (error) {
-        console.error('Error fetching O*NET questions:', error);
+        // console.error('Error fetching O*NET questions:', error);
         return res.status(500).json({
             error: 'Failed to fetch questions from O*NET',
             details: error instanceof Error ? error.message : 'Unknown error'
@@ -73,7 +73,7 @@ router.post('/results', async (req, res) => {
             });
         }
 
-        console.log('Submitting answers to O*NET:', answers);
+        // console.log('Submitting answers to O*NET:', answers);
 
         const results = await onetService.call('mnm/interestprofiler/results', {
             method: 'POST',
@@ -83,7 +83,7 @@ router.post('/results', async (req, res) => {
             }
         });
 
-        console.log('Raw O*NET response:', results);
+        // console.log('Raw O*NET response:', results);
 
         // Calculate scores for each area
         const areaScores = calculateAreaScores(answers, results);
@@ -97,11 +97,11 @@ router.post('/results', async (req, res) => {
             }))
         };
 
-        console.log('Transformed results with scores:', transformedResults);
+        // console.log('Transformed results with scores:', transformedResults);
 
         return res.json(transformedResults);
     } catch (error) {
-        console.error('Error submitting O*NET results:', error);
+        // console.error('Error submitting O*NET results:', error);
         return res.status(500).json({
             error: 'Failed to submit assessment results',
             details: error instanceof Error ? error.message : 'Unknown error'

@@ -35,7 +35,7 @@ router.get('/search', async (req: Request, res: Response): Promise<Response | vo
         return res.json(response.data);
 
     } catch (error) {
-        console.error('Job search error:', error);
+        // console.error('Job search error:', error);
 
         if (error instanceof AxiosError) {
             if (error.response?.status === 429) {

@@ -19,8 +19,6 @@ const AssessmentResults = () => {
     const location = useLocation();
     const resultsData = location.state?.results as ResultsData;
 
-    console.log('Raw results data:', resultsData);
-
     if (!resultsData || !resultsData.result) {
         return (
             <div className="min-h-screen bg-gray-900 p-6">
@@ -80,8 +78,10 @@ const AssessmentResults = () => {
                                             {/* Action Link */}
                                             <button 
                                                 className="flex items-center gap-2 text-teal-400 text-sm group-hover:text-teal-300 transition-colors"
-                                                onClick={() => console.log(`View details for ${area.area}`)}
-                                            >
+                                                onClick={() => {
+                                                    // Handle career exploration for this area
+                                                    // Add career exploration logic here
+                                                }}>
                                                 Explore {area.area} Careers
                                                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                             </button>

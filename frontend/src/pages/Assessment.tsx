@@ -34,14 +34,9 @@ function Assessment(): JSX.Element {
     const fetchQuestions = async (start: number) => {
         setLoading(true);
         try {
-            console.log('Fetching batch starting at:', start);
-            
-            // Format the request URL
             const url = new URL('/api/onet/questions', window.location.origin);
             url.searchParams.append('start', start.toString());
             url.searchParams.append('end', (start + 11).toString());
-            
-            console.log('Requesting from:', url.toString());
 
             const response = await fetch(url.toString(), {
                 method: 'GET',
@@ -51,23 +46,14 @@ function Assessment(): JSX.Element {
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('API Error:', {
-                    status: response.status,
-                    statusText: response.statusText,
-                    errorText
-                });
                 throw new Error(`Failed to fetch questions: ${response.status}`);
             }
 
             const data: APIResponse = await response.json();
-            console.log('Received response:', data);
-
             setQuestions(data.question);
             setAnswerOptions(data.answer_options.answer_option);
             setTotalQuestions(data.total);
         } catch (err) {
-            console.error('Error fetching questions:', err);
             setError(err instanceof Error ? err.message : 'An error occurred');
         } finally {
             setLoading(false);
@@ -81,18 +67,11 @@ function Assessment(): JSX.Element {
     const handleAnswer = (questionIndex: number, value: number) => {
         try {
             const question = questions[questionIndex];
-            console.log('Recording answer:', {
-                questionIndex: question.index,
-                value,
-                text: question.text
-            });
-
             setAnswers(prev => ({
                 ...prev,
                 [question.index]: value
             }));
         } catch (err) {
-            console.error('Error recording answer:', err);
             setError('Failed to record answer');
         }
     };
@@ -152,13 +131,10 @@ function Assessment(): JSX.Element {
                         : 0
                 }))
             };
-    
-            console.log('Transformed results:', transformedResults);
             
             // Navigate to results page with transformed data
             navigate('/results', { state: { results: transformedResults } });
         } catch (err) {
-            console.error('Error submitting assessment:', err);
             setError(err instanceof Error ? err.message : 'Failed to submit assessment');
         } finally {
             setLoading(false);
@@ -281,7 +257,8 @@ function Assessment(): JSX.Element {
                                 <ChevronLeft className="w-4 h-4" />
                                 Previous
                             </button>
-                            <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all" > <Home className="w-4 h-4" />
+                            <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 transition-all" >
+                                <Home className="w-4 h-4" />
                                 Go Home
                             </Link>
                         </div>

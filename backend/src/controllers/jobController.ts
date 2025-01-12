@@ -22,7 +22,7 @@ export const getJobs = async (req: Request, res: Response) => {
 
         res.json(jobs);
     } catch (error) {
-        console.error('Error fetching jobs:', error);
+        // console.error('Error fetching jobs:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
     return res.status(200).end();

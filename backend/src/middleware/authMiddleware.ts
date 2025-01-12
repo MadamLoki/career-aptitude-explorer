@@ -23,7 +23,7 @@ const authenticateToken = async (
         
         return next();
     } catch (error) {
-        console.error('Auth middleware error:', error);
+        // console.error('Auth middleware error:', error);
         return res.status(401).json({
             success: false,
             error: 'Invalid or expired token'

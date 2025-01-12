@@ -12,12 +12,12 @@ const router = Router();
 router.post('/register', async (req: Request<{}, {}, RegisterRequest>, res: Response) => {
     try {
         const { email, password, name } = req.body;
-        console.log('Received registration request:', { email, name });
+        // console.log('Received registration request:', { email, name });
 
         // Check if user already exists
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
-            console.log('Registration failed: User already exists:', email);
+            // console.log('Registration failed: User already exists:', email);
             return res.status(400).json({ 
                 success: false,
                 error: 'User already exists' 
@@ -33,7 +33,7 @@ router.post('/register', async (req: Request<{}, {}, RegisterRequest>, res: Resp
             isActive: true
         } as UserAttributes);
 
-        console.log('User created successfully:', { id: user.id, email: user.email });
+        // console.log('User created successfully:', { id: user.id, email: user.email });
 
         const token = generateToken({ id: user.id, email: user.email });
 
@@ -57,7 +57,7 @@ router.post('/register', async (req: Request<{}, {}, RegisterRequest>, res: Resp
             }
         });
     } catch (error) {
-        console.error('Registration error:', error);
+        // console.error('Registration error:', error);
         return res.status(400).json({ 
             success: false,
             error: 'Registration failed' 
@@ -99,7 +99,7 @@ router.post('/login', async (req: Request<{}, {}, LoginRequest>, res: Response) 
             }
         });
     } catch (error) {
-        console.error('Login error:', error);
+       // console.error('Login error:', error);
         return res.status(400).json({ 
             success: false,
             error: 'Login failed' 
@@ -135,7 +135,7 @@ router.get('/me', authenticateToken, async (req: AuthenticatedRequest, res: Resp
             data: { user }
         });
     } catch (error) {
-        console.error('Profile fetch error:', error);
+        // console.error('Profile fetch error:', error);
         return res.status(500).json({
             success: false,
             error: 'Failed to fetch user profile'

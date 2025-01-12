@@ -34,8 +34,6 @@ export default function Register() {
     const navigate = useNavigate();
 
     const validateForm = (): boolean => {
-        console.log('Validating form with data:', formData);
-        
         const newErrors: FormErrors = {
             name: '',
             email: '',
@@ -66,10 +64,8 @@ export default function Register() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Form submission initiated');
         
         if (!acceptedTerms) {
-            console.log('Form submission blocked: Terms not accepted');
             setErrors(prev => ({
                 ...prev,
                 general: 'Please accept the terms and conditions'
@@ -84,12 +80,7 @@ export default function Register() {
         setIsLoading(true);
         setErrors({ name: '', email: '', password: '' });
 
-        try {
-            console.log('Sending registration request with data:', {
-                ...formData,
-                password: '[REDACTED]'
-            });
-            
+        try {            
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: {
@@ -104,18 +95,9 @@ export default function Register() {
             });
 
             const data = await response.json();
-            console.log('Registration response received:', {
-                status: response.status,
-                ok: response.ok,
-                data: data
-            });
-
             if (!response.ok) {
-                console.error('Registration failed:', data.error || 'Unknown error');
                 throw new Error(data.error || 'Registration failed');
             }
-            
-            console.log('Registration successful!');
 
             // Successful registration
             navigate('/login', { 
@@ -123,7 +105,6 @@ export default function Register() {
             });
 
         } catch (error) {
-            console.error('Registration error:', error);
             setErrors(prev => ({
                 ...prev,
                 general: error instanceof Error ? error.message : 'Registration failed'
@@ -135,7 +116,6 @@ export default function Register() {
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        console.log(`Field "${name}" changed:`, name === 'password' ? '[REDACTED]' : value);
         setFormData(prev => ({
             ...prev,
             [name]: value

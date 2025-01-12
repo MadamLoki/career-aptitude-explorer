@@ -28,7 +28,7 @@ router.post('/', authenticateToken, async (req: AuthenticatedRequest, res) => {
             onetResults
         });
     } catch (error) {
-        console.error('Failed to create assessment:', error);
+        // console.error('Failed to create assessment:', error);
         res.status(400).json({ error: 'Failed to create assessment' });
     }
 });
@@ -42,7 +42,7 @@ router.get('/results', authenticateToken, async (req: AuthenticatedRequest, res)
         });
         res.json(assessments);
     } catch (error) {
-        console.error('Failed to fetch results:', error);
+        // console.error('Failed to fetch results:', error);
         res.status(400).json({ error: 'Failed to fetch results' });
     }
 });
@@ -63,7 +63,7 @@ router.get('/:id', authenticateToken, async (req: AuthenticatedRequest, res: Res
         
         return res.json(assessment);
     } catch (error) {
-        console.error('Failed to fetch assessment:', error);
+        //console.error('Failed to fetch assessment:', error);
         return res.status(400).json({ error: 'Failed to fetch assessment' });
     }
 });

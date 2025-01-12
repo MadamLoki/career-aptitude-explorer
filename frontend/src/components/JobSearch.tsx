@@ -35,8 +35,6 @@ const JobSearch: React.FC = () => {
                 where: location
             });
 
-            console.log('Fetching from:', `/api/jobs/search?${queryParams}`);
-
             const response = await fetch(`/api/jobs/search?${queryParams}`, {
                 method: 'GET',
                 headers: {
@@ -44,25 +42,18 @@ const JobSearch: React.FC = () => {
                 }
             });
             
-            console.log('Response status:', response.status);
-            
             if (!response.ok) {
-                const errorData = await response.text();
-                console.error('Error response:', errorData);
                 throw new Error(`Failed to fetch job listings: ${response.status}`);
             }
             
             const data = await response.json();
-            console.log('Response data:', data);
             
             if (data && Array.isArray(data.results)) {
                 setResults(data.results);
             } else {
-                console.error('Unexpected data format:', data);
                 throw new Error('Invalid response format');
             }
         } catch (err) {
-            console.error('Error in searchJobs:', err);
             setError(err instanceof Error ? err.message : 'An error occurred while fetching jobs');
             setResults([]);
         } finally {
